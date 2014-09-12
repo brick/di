@@ -1,0 +1,27 @@
+{
+    "name": "brick/di",
+    "description": "Dependency injection and IoC framework",
+    "type": "library",
+    "keywords": [
+        "Brick",
+        "Di",
+        "IoC",
+        "Dependency Injection",
+        "Inversion of Control"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.5",
+        "brick/reflection": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Brick\\Di\\": "src/",
+            "Brick\\Di\\Tests\\": "tests/"
+        }
+    }
+}

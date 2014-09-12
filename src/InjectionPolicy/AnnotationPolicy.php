@@ -33,7 +33,7 @@ class AnnotationPolicy implements InjectionPolicy
      */
     public function __construct(Reader $reader)
     {
-        AnnotationRegistry::registerAutoloadNamespace('Brick\Di\Annotation', __DIR__ . '/../../..');
+        AnnotationRegistry::registerFile(__DIR__ . '/../Annotation/Inject.php');
 
         $this->reader = $reader;
         $this->reflectionTools = new ReflectionTools();

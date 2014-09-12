@@ -1,6 +1,6 @@
 <?php
 
-namespace Brick\Tests\DependencyInjection;
+namespace Brick\Di\Tests;
 
 use Brick\Di\Scope;
 use Doctrine\Common\Annotations\AnnotationReader;

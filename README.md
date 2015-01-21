@@ -3,8 +3,8 @@ Brick\Di
 
 A Dependency Injection and Inversion Of Control framework.
 
-[![Build Status](https://secure.travis-ci.org/brick/di.png?branch=master)](http://travis-ci.org/brick/di)
-[![Coverage Status](https://coveralls.io/repos/brick/di/badge.png?branch=master)](https://coveralls.io/r/brick/di?branch=master)
+[![Build Status](https://secure.travis-ci.org/brick/di.svg?branch=master)](http://travis-ci.org/brick/di)
+[![Coverage Status](https://coveralls.io/repos/brick/di/badge.svg?branch=master)](https://coveralls.io/r/brick/di?branch=master)
 
 Introduction
 ------------

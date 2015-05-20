@@ -94,7 +94,7 @@ class Container
      * The value will be returned as is when requested with get().
      *
      * @param string $key   The key, class or interface name.
-     * @param string $value The value to set.
+     * @param mixed  $value The value to set.
      *
      * @return Container
      */

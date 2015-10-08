@@ -69,6 +69,8 @@ class Injector
         $class = new \ReflectionClass($class);
         $instance = $class->newInstanceWithoutConstructor();
 
+        $this->inject($instance);
+
         $constructor = $class->getConstructor();
 
         if ($constructor) {
@@ -77,11 +79,13 @@ class Injector
             $constructor->invokeArgs($instance, $parameters);
         }
 
-        return $this->inject($instance);
+        return $instance;
     }
 
     /**
      * Injects dependencies in an object.
+     *
+     * Properties are injected first, then methods.
      *
      * @param object $object The object to inject dependencies in.
      *
@@ -91,10 +95,8 @@ class Injector
     {
         $reflection = new \ReflectionObject($object);
 
-        $this->injectMethods($reflection, $object);
         $this->injectProperties($reflection, $object);
-
-        return $object;
+        $this->injectMethods($reflection, $object);
     }
 
     /**

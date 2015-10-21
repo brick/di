@@ -24,10 +24,16 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             'db.pass' => 'passw0rd'
         ]);
 
-        $container->set('someservice.lifetime', 3600);
-
         $container->bind(SomeService::class)->with([
-            'lifetime' => 'someservice.lifetime'
+            'timeout' => 3600
+        ])->using([
+            'config' => [
+                'HOSTNAME' => 'db.host',
+                'CREDENTIALS' => [
+                    'USERNAME' => 'db.user',
+                    'PASSWORD' => 'db.pass'
+                ]
+            ]
         ]);
 
         $container->bind(AnotherService::class);
@@ -38,11 +44,19 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(DatabaseConnection::class, $service->connection);
         $this->assertInstanceOf(SomeService::class, $service->service);
 
-        $this->assertEquals('localhost', $service->connection->hostname);
-        $this->assertEquals('root', $service->connection->username);
-        $this->assertEquals('passw0rd', $service->connection->password);
+        $this->assertSame('localhost', $service->connection->hostname);
+        $this->assertSame('root', $service->connection->username);
+        $this->assertSame('passw0rd', $service->connection->password);
 
-        $this->assertEquals(3600, $service->service->lifetime);
+        $this->assertSame(3600, $service->service->timeout);
+
+        $this->assertSame([
+            'HOSTNAME' => 'localhost',
+            'CREDENTIALS' => [
+                'USERNAME' => 'root',
+                'PASSWORD' => 'passw0rd'
+            ]
+        ], $service->service->config);
     }
 
     /**
@@ -52,7 +66,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $containerWithoutAnnotations = Container::create();
 
-        $containerWithoutAnnotations->bind(DatabaseConnection::class)->with([
+        $containerWithoutAnnotations->bind(DatabaseConnection::class)->using([
             'hostname' => 'db.host',
             'username' => 'db.user',
             'password' => 'db.pass'
@@ -77,7 +91,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $container = Container::create();
 
         $container->set('foo', 'bar');
-        $container->bind(DatabaseConnection::class)->in($dbScope)->with([
+        $container->bind(DatabaseConnection::class)->in($dbScope)->using([
                 'hostname' => 'foo',
                 'username' => 'foo',
                 'password' => 'foo'
@@ -142,12 +156,14 @@ class DatabaseConnection
 class SomeService
 {
     public $connection;
-    public $lifetime;
+    public $timeout;
+    public $config;
 
-    public function __construct(DatabaseConnection $connection, $lifetime)
+    public function __construct(DatabaseConnection $connection, $timeout, array $config)
     {
         $this->connection = $connection;
-        $this->lifetime = $lifetime;
+        $this->timeout = $timeout;
+        $this->config = $config;
     }
 }
 

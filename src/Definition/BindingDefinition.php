@@ -21,7 +21,12 @@ class BindingDefinition extends Definition
     /**
      * @var array
      */
-    private $parameters = [];
+    private $withParameters = [];
+
+    /**
+     * @var array
+     */
+    private $usingParameters = [];
 
     /**
      * Class constructor.
@@ -48,13 +53,36 @@ class BindingDefinition extends Definition
     /**
      * Sets an associative array of parameters to resolve the binding.
      *
+     * Unlike using(), values can be of any type and will be used as is.
+     *
+     * Note that if with() and using() keys conflict, using() takes precedence.
+     *
      * @param array $parameters
      *
      * @return BindingDefinition
      */
     public function with(array $parameters)
     {
-        $this->parameters = $parameters;
+        $this->withParameters = $parameters;
+
+        return $this;
+    }
+
+    /**
+     * Sets an associative array of parameters mapping to container values to resolve the binding.
+     *
+     * Unlike with(), values are keys that will be resolved by the container at injection time.
+     * Values can be either strings, or nested arrays of strings.
+     *
+     * Note that if with() and using() keys conflict, using() takes precedence.
+     *
+     * @param array $parameters
+     *
+     * @return BindingDefinition
+     */
+    public function using(array $parameters)
+    {
+        $this->usingParameters = $parameters;
 
         return $this;
     }
@@ -64,7 +92,8 @@ class BindingDefinition extends Definition
      */
     public function resolve(Container $container)
     {
-        $parameters = $container->get($this->parameters);
+        $parameters = $container->get($this->usingParameters);
+        $parameters = $parameters + $this->withParameters;
 
         if ($this->target instanceof \Closure) {
             return $container->getInjector()->invoke($this->target, $parameters);

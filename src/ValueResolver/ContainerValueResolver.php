@@ -50,7 +50,7 @@ class ContainerValueResolver implements ValueResolver
         // Check if an injection key is available for this parameter.
         $key = $this->injectionPolicy->getParameterKey($parameter);
         if ($key !== null) {
-            return $this->get($key);
+            return $this->container->get($key);
         }
 
         // Try to resolve the parameter by type.
@@ -73,7 +73,7 @@ class ContainerValueResolver implements ValueResolver
         // Check if an injection key is available for this property.
         $key = $this->injectionPolicy->getPropertyKey($property);
         if ($key !== null) {
-            return $this->get($key);
+            return $this->container->get($key);
         }
 
         // Try to resolve the property by type.
@@ -85,25 +85,5 @@ class ContainerValueResolver implements ValueResolver
         }
 
         return $this->defaultValueResolver->getPropertyValue($property);
-    }
-
-    /**
-     * Resolves a single key, or multiple keys in an associative array.
-     *
-     * @param string|array $keys
-     *
-     * @return mixed
-     */
-    private function get($keys)
-    {
-        if (is_string($keys)) {
-            return $this->container->get($keys);
-        }
-
-        foreach ($keys as $key => $value) {
-            $keys[$key] = $this->container->get($value);
-        }
-
-        return $keys;
     }
 }

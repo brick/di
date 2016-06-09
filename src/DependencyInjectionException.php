@@ -12,7 +12,7 @@ class DependencyInjectionException extends \RuntimeException
      *
      * @return DependencyInjectionException
      */
-    public static function keyNotRegistered($key)
+    public static function keyNotRegistered(string $key)
     {
         return new self('Key not registered: ' . $key);
     }

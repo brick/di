@@ -28,7 +28,7 @@ class Inject
      *
      * @return string|null
      */
-    public function getValue($name)
+    public function getValue(string $name)
     {
         return isset($this->values[$name]) ? $this->values[$name] : null;
     }

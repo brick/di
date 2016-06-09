@@ -19,7 +19,7 @@ class AliasDefinition extends Definition
     /**
      * @param string $target
      */
-    public function __construct($target)
+    public function __construct(string $target)
     {
         $this->target = $target;
     }

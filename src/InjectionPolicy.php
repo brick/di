@@ -12,7 +12,7 @@ interface InjectionPolicy
      *
      * @param \ReflectionClass $class
      *
-     * @return boolean
+     * @return bool
      */
     public function isClassInjected(\ReflectionClass $class);
 
@@ -21,7 +21,7 @@ interface InjectionPolicy
      *
      * @param \ReflectionMethod $method
      *
-     * @return boolean
+     * @return bool
      */
     public function isMethodInjected(\ReflectionMethod $method);
 
@@ -30,7 +30,7 @@ interface InjectionPolicy
      *
      * @param \ReflectionProperty $property
      *
-     * @return boolean
+     * @return bool
      */
     public function isPropertyInjected(\ReflectionProperty $property);
 

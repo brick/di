@@ -98,7 +98,7 @@ class Container
      *
      * @return Container
      */
-    public function set($key, $value)
+    public function set(string $key, $value)
     {
         $this->items[$key] = $value;
 
@@ -147,7 +147,7 @@ class Container
      *
      * @return BindingDefinition
      */
-    public function bind($key)
+    public function bind(string $key)
     {
         return $this->items[$key] = new BindingDefinition($key);
     }
@@ -176,7 +176,7 @@ class Container
      *
      * @return \Brick\Di\Definition\AliasDefinition
      */
-    public function alias($key, $target)
+    public function alias(string $key, string $target)
     {
         return $this->items[$key] = new AliasDefinition($target);
     }
@@ -184,9 +184,9 @@ class Container
     /**
      * @param string $key
      *
-     * @return boolean
+     * @return bool
      */
-    public function has($key)
+    public function has(string $key)
     {
         if (! isset($this->items[$key])) {
             if (class_exists($key)) {

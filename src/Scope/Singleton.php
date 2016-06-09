@@ -12,7 +12,7 @@ use Brick\Di\Container;
 class Singleton extends Scope
 {
     /**
-     * @var boolean
+     * @var bool
      */
     private $resolved = false;
 

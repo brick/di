@@ -64,7 +64,7 @@ class Injector
      *
      * @throws UnresolvedValueException If a function parameter could not be resolved.
      */
-    public function instantiate($class, array $parameters = [])
+    public function instantiate(string $class, array $parameters = [])
     {
         $class = new \ReflectionClass($class);
         $instance = $class->newInstanceWithoutConstructor();

@@ -150,9 +150,8 @@ class Injector
         $result = [];
 
         foreach ($function->getParameters() as $parameter) {
-            $name = $parameter->getName();
             $this->resolver->setValues($parameters);
-            $result[$name] = $this->resolver->getParameterValue($parameter);
+            $result[] = $this->resolver->getParameterValue($parameter);
             $this->resolver->setValues([]);
         }
 

@@ -89,7 +89,7 @@ class Injector
      *
      * @param object $object The object to inject dependencies in.
      *
-     * @return object The object, for chaining.
+     * @return void
      */
     public function inject($object)
     {

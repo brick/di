@@ -8,10 +8,12 @@ use Brick\Di\InjectionPolicy\AnnotationPolicy;
 use Brick\Di\Annotation\Inject;
 use Brick\Di\Container;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Unit test for the dependency injection container.
  */
-class ContainerTest extends \PHPUnit_Framework_TestCase
+class ContainerTest extends TestCase
 {
     /**
      * @dataProvider containerProvider
@@ -101,7 +103,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertResult($container, DatabaseConnection::class, $dbSame);
         $this->assertResult($container, 'database.connection.shared', $aliasSame);
-    }
+}
 
     /**
      * @return array

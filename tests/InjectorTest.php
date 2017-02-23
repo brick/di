@@ -6,7 +6,9 @@ use Brick\Di\InjectionPolicy\NullPolicy;
 use Brick\Di\Injector;
 use Brick\Di\ValueResolver\DefaultValueResolver;
 
-class InjectorTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class InjectorTest extends TestCase
 {
     public function testCanInjectPrivateMethod()
     {

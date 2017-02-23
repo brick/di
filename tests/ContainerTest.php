@@ -86,7 +86,7 @@ class ContainerTest extends TestCase
     }
 
     /**
-     * @dataProvider testScopeProvider
+     * @dataProvider providerScope
      */
     public function testScope(Scope $dbScope, Scope $aliasScope, $dbSame, $aliasSame)
     {
@@ -103,12 +103,12 @@ class ContainerTest extends TestCase
 
         $this->assertResult($container, DatabaseConnection::class, $dbSame);
         $this->assertResult($container, 'database.connection.shared', $aliasSame);
-}
+    }
 
     /**
      * @return array
      */
-    public function testScopeProvider()
+    public function providerScope()
     {
         return [
             [Scope::singleton(), Scope::singleton(), true, true],

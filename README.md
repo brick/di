@@ -22,7 +22,7 @@ Just define the following requirement in your `composer.json` file:
 
     {
         "require": {
-            "brick/di": "dev-master"
+            "brick/di": "0.1.*"
         }
     }
 

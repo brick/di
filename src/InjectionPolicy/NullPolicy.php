@@ -12,7 +12,7 @@ class NullPolicy implements InjectionPolicy
     /**
      * {@inheritdoc}
      */
-    public function isClassInjected(\ReflectionClass $class)
+    public function isClassInjected(\ReflectionClass $class) : bool
     {
         return false;
     }
@@ -20,7 +20,7 @@ class NullPolicy implements InjectionPolicy
     /**
      * {@inheritdoc}
      */
-    public function isMethodInjected(\ReflectionMethod $method)
+    public function isMethodInjected(\ReflectionMethod $method) : bool
     {
         return false;
     }
@@ -28,7 +28,7 @@ class NullPolicy implements InjectionPolicy
     /**
      * {@inheritdoc}
      */
-    public function isPropertyInjected(\ReflectionProperty $property)
+    public function isPropertyInjected(\ReflectionProperty $property) : bool
     {
         return false;
     }

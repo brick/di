@@ -35,7 +35,7 @@ class AliasDefinition extends Definition
     /**
      * {@inheritdoc}
      */
-    public function getDefaultScope()
+    public function getDefaultScope() : Scope
     {
         return Scope::prototype();
     }

@@ -19,7 +19,7 @@ abstract class Definition
      *
      * @return static
      */
-    public function in(Scope $scope)
+    public function in(Scope $scope) : Definition
     {
         $this->scope = $scope;
 
@@ -60,5 +60,5 @@ abstract class Definition
      *
      * @return Scope
      */
-    abstract protected function getDefaultScope();
+    abstract protected function getDefaultScope() : Scope;
 }

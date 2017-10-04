@@ -14,7 +14,7 @@ interface InjectionPolicy
      *
      * @return bool
      */
-    public function isClassInjected(\ReflectionClass $class);
+    public function isClassInjected(\ReflectionClass $class) : bool;
 
     /**
      * Should the given method be injected after instantiating the class?
@@ -23,7 +23,7 @@ interface InjectionPolicy
      *
      * @return bool
      */
-    public function isMethodInjected(\ReflectionMethod $method);
+    public function isMethodInjected(\ReflectionMethod $method) : bool;
 
     /**
      * Should the given property be injected after instantiating the class?
@@ -32,7 +32,7 @@ interface InjectionPolicy
      *
      * @return bool
      */
-    public function isPropertyInjected(\ReflectionProperty $property);
+    public function isPropertyInjected(\ReflectionProperty $property) : bool;
 
     /**
      * @param \ReflectionParameter $parameter

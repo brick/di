@@ -28,7 +28,7 @@ class Inject
      *
      * @return string|null
      */
-    public function getValue(string $name)
+    public function getValue(string $name) : ?string
     {
         return isset($this->values[$name]) ? $this->values[$name] : null;
     }
@@ -38,7 +38,7 @@ class Inject
      *
      * @return string|null
      */
-    public function getSingleValue()
+    public function getSingleValue() : ?string
     {
         return $this->getValue('value');
     }

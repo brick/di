@@ -59,7 +59,7 @@ class Container
      *
      * @return Container
      */
-    public static function create()
+    public static function create() : Container
     {
         return new Container(new NullPolicy());
     }
@@ -67,7 +67,7 @@ class Container
     /**
      * @return Injector
      */
-    public function getInjector()
+    public function getInjector(): Injector
     {
         return $this->injector;
     }
@@ -75,7 +75,7 @@ class Container
     /**
      * @return ContainerValueResolver
      */
-    public function getValueResolver()
+    public function getValueResolver() : ContainerValueResolver
     {
         return $this->valueResolver;
     }
@@ -83,7 +83,7 @@ class Container
     /**
      * @return InjectionPolicy
      */
-    public function getInjectionPolicy()
+    public function getInjectionPolicy() : InjectionPolicy
     {
         return $this->injectionPolicy;
     }
@@ -98,7 +98,7 @@ class Container
      *
      * @return Container
      */
-    public function set(string $key, $value)
+    public function set(string $key, $value) : Container
     {
         $this->items[$key] = $value;
 
@@ -114,7 +114,7 @@ class Container
      *
      * @return Container
      */
-    public function add(array $values)
+    public function add(array $values) : Container
     {
         $this->items = $values + $this->items;
 
@@ -147,7 +147,7 @@ class Container
      *
      * @return BindingDefinition
      */
-    public function bind(string $key)
+    public function bind(string $key) : BindingDefinition
     {
         return $this->items[$key] = new BindingDefinition($key);
     }
@@ -176,7 +176,7 @@ class Container
      *
      * @return \Brick\Di\Definition\AliasDefinition
      */
-    public function alias(string $key, string $target)
+    public function alias(string $key, string $target) : AliasDefinition
     {
         return $this->items[$key] = new AliasDefinition($target);
     }
@@ -186,7 +186,7 @@ class Container
      *
      * @return bool
      */
-    public function has(string $key)
+    public function has(string $key) : bool
     {
         if (! isset($this->items[$key])) {
             if (class_exists($key)) {

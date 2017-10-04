@@ -42,7 +42,7 @@ class AnnotationPolicy implements InjectionPolicy
     /**
      * {@inheritdoc}
      */
-    public function isClassInjected(\ReflectionClass $class)
+    public function isClassInjected(\ReflectionClass $class) : bool
     {
         foreach ($this->reader->getClassAnnotations($class) as $annotation) {
             if ($annotation instanceof Inject) {
@@ -56,7 +56,7 @@ class AnnotationPolicy implements InjectionPolicy
     /**
      * {@inheritdoc}
      */
-    public function isMethodInjected(\ReflectionMethod $method)
+    public function isMethodInjected(\ReflectionMethod $method) : bool
     {
         foreach ($this->reader->getMethodAnnotations($method) as $annotation) {
             if ($annotation instanceof Inject) {
@@ -70,7 +70,7 @@ class AnnotationPolicy implements InjectionPolicy
     /**
      * {@inheritdoc}
      */
-    public function isPropertyInjected(\ReflectionProperty $property)
+    public function isPropertyInjected(\ReflectionProperty $property) : bool
     {
         foreach ($this->reader->getPropertyAnnotations($property) as $annotation) {
             if ($annotation instanceof Inject) {

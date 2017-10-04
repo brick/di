@@ -9,9 +9,10 @@ class UnresolvedValueException extends \RuntimeException
 {
     /**
      * @param \ReflectionParameter $parameter
+     *
      * @return UnresolvedValueException
      */
-    public static function unresolvedParameter(\ReflectionParameter $parameter)
+    public static function unresolvedParameter(\ReflectionParameter $parameter) : UnresolvedValueException
     {
         $message = 'The parameter "%s" from function "%s" could not be resolved';
         $message = sprintf($message, self::getParameterName($parameter), self::getFunctionName($parameter));
@@ -21,9 +22,10 @@ class UnresolvedValueException extends \RuntimeException
 
     /**
      * @param \ReflectionProperty $property
+     *
      * @return UnresolvedValueException
      */
-    public static function unresolvedProperty(\ReflectionProperty $property)
+    public static function unresolvedProperty(\ReflectionProperty $property) : UnresolvedValueException
     {
         $message = 'The property %s::$%s could not be resolved';
         $message = sprintf($message, $property->getDeclaringClass()->getName(), $property->getName());
@@ -35,9 +37,10 @@ class UnresolvedValueException extends \RuntimeException
      * Returns the type (if any) + name of a function parameter.
      *
      * @param \ReflectionParameter $parameter
+     *
      * @return string
      */
-    private static function getParameterName(\ReflectionParameter $parameter)
+    private static function getParameterName(\ReflectionParameter $parameter) : string
     {
         return self::getTypeHint($parameter) . '$' . $parameter->getName();
     }
@@ -46,9 +49,10 @@ class UnresolvedValueException extends \RuntimeException
      * Helper class for getParameterName().
      *
      * @param \ReflectionParameter $parameter
+     *
      * @return string
      */
-    private static function getTypeHint(\ReflectionParameter $parameter)
+    private static function getTypeHint(\ReflectionParameter $parameter) : string
     {
         if ($parameter->isArray()) {
             return 'array ';
@@ -66,9 +70,10 @@ class UnresolvedValueException extends \RuntimeException
      * Returns the type (if any) + name of a function.
      *
      * @param \ReflectionParameter $parameter
+     *
      * @return string
      */
-    private static function getFunctionName(\ReflectionParameter $parameter)
+    private static function getFunctionName(\ReflectionParameter $parameter) : string
     {
         $function = $parameter->getDeclaringFunction();
 
@@ -79,9 +84,10 @@ class UnresolvedValueException extends \RuntimeException
      * Helper class for getFunctionName().
      *
      * @param \ReflectionFunctionAbstract $function
+     *
      * @return string
      */
-    private static function getClassName(\ReflectionFunctionAbstract $function)
+    private static function getClassName(\ReflectionFunctionAbstract $function) : string
     {
         if ($function instanceof \ReflectionMethod) {
             return $function->getDeclaringClass()->getName() . '::';

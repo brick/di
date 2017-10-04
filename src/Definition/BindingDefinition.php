@@ -43,7 +43,7 @@ class BindingDefinition extends Definition
      *
      * @return BindingDefinition
      */
-    public function to($target)
+    public function to($target) : BindingDefinition
     {
         $this->target = $target;
 
@@ -61,7 +61,7 @@ class BindingDefinition extends Definition
      *
      * @return BindingDefinition
      */
-    public function with(array $parameters)
+    public function with(array $parameters) : BindingDefinition
     {
         $this->withParameters = $parameters;
 
@@ -80,7 +80,7 @@ class BindingDefinition extends Definition
      *
      * @return BindingDefinition
      */
-    public function using(array $parameters)
+    public function using(array $parameters) : BindingDefinition
     {
         $this->usingParameters = $parameters;
 
@@ -105,7 +105,7 @@ class BindingDefinition extends Definition
     /**
      * {@inheritdoc}
      */
-    public function getDefaultScope()
+    public function getDefaultScope() : Scope
     {
         return Scope::singleton();
     }

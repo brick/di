@@ -31,8 +31,10 @@ class ArrayValueResolver implements ValueResolver
 
     /**
      * @param array $values
+     *
+     * @return void
      */
-    public function setValues(array $values)
+    public function setValues(array $values) : void
     {
         $this->values = $values;
     }

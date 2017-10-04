@@ -91,7 +91,7 @@ class Injector
      *
      * @return void
      */
-    public function inject($object)
+    public function inject($object) : void
     {
         $reflection = new \ReflectionObject($object);
 
@@ -105,7 +105,7 @@ class Injector
      *
      * @return void
      */
-    private function injectMethods(\ReflectionClass $class, $object)
+    private function injectMethods(\ReflectionClass $class, $object) : void
     {
         foreach ($this->reflectionTools->getClassMethods($class) as $method) {
             if ($this->policy->isMethodInjected($method)) {
@@ -122,7 +122,7 @@ class Injector
      *
      * @return void
      */
-    private function injectProperties(\ReflectionClass $class, $object)
+    private function injectProperties(\ReflectionClass $class, $object) : void
     {
         foreach ($this->reflectionTools->getClassProperties($class) as $property) {
             if ($this->policy->isPropertyInjected($property)) {
@@ -145,7 +145,7 @@ class Injector
      *
      * @throws UnresolvedValueException If a function parameter could not be resolved.
      */
-    private function getFunctionParameters(\ReflectionFunctionAbstract $function, array $parameters = [])
+    private function getFunctionParameters(\ReflectionFunctionAbstract $function, array $parameters = []) : array
     {
         $result = [];
 

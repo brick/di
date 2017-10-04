@@ -10,7 +10,7 @@ abstract class Scope
     /**
      * @return Scope\Singleton
      */
-    public static function singleton()
+    public static function singleton() : Scope\Singleton
     {
         return new Scope\Singleton();
     }
@@ -18,7 +18,7 @@ abstract class Scope
     /**
      * @return Scope\Prototype
      */
-    public static function prototype()
+    public static function prototype() : Scope\Prototype
     {
         return new Scope\Prototype();
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brick\Di\ValueResolver;
 
 use Brick\Di\ValueResolver;

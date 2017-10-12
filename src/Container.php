@@ -128,12 +128,12 @@ class Container
      *
      * By default, the key is bound to itself, so these two lines of code are equivalent;
      *
-     *     $container->bind('Class\Name')
-     *     $container->bind('Class\Name')->to('Class\Name')
+     *     $container->bind('Class\Name');
+     *     $container->bind('Class\Name')->to('Class\Name');
      *
      * It can be used to bind an interface to a class to be instantiated:
      *
-     *     $container->bind('Interface\Name')->to('Class\Name')
+     *     $container->bind('Interface\Name')->to('Class\Name');
      *
      * The key can also be bound to a closure to return any value:
      *

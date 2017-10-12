@@ -79,7 +79,7 @@ class AnnotationPolicy implements InjectionPolicy
     /**
      * {@inheritdoc}
      */
-    public function getParameterKey(\ReflectionParameter $parameter)
+    public function getParameterKey(\ReflectionParameter $parameter) : ?string
     {
         $function = $parameter->getDeclaringFunction();
 
@@ -101,7 +101,7 @@ class AnnotationPolicy implements InjectionPolicy
     /**
      * {@inheritdoc}
      */
-    public function getPropertyKey(\ReflectionProperty $property)
+    public function getPropertyKey(\ReflectionProperty $property) : ?string
     {
         foreach ($this->reader->getPropertyAnnotations($property) as $annotation) {
             if ($annotation instanceof Inject) {

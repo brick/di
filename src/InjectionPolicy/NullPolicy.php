@@ -38,7 +38,7 @@ class NullPolicy implements InjectionPolicy
     /**
      * {@inheritdoc}
      */
-    public function getParameterKey(\ReflectionParameter $parameter)
+    public function getParameterKey(\ReflectionParameter $parameter) : ?string
     {
         return null;
     }
@@ -46,7 +46,7 @@ class NullPolicy implements InjectionPolicy
     /**
      * {@inheritdoc}
      */
-    public function getPropertyKey(\ReflectionProperty $property)
+    public function getPropertyKey(\ReflectionProperty $property) : ?string
     {
         return null;
     }

@@ -45,9 +45,9 @@ interface InjectionPolicy
      *
      * @param \ReflectionParameter $parameter
      *
-     * @return string|array|null The key, or null.
+     * @return string|null
      */
-    public function getParameterKey(\ReflectionParameter $parameter);
+    public function getParameterKey(\ReflectionParameter $parameter) : ?string;
 
     /**
      * Returns the container key to use to resolve the given property, if any.
@@ -56,7 +56,7 @@ interface InjectionPolicy
      *
      * @param \ReflectionProperty $property
      *
-     * @return string|array|null The key, or null.
+     * @return string|null
      */
-    public function getPropertyKey(\ReflectionProperty $property);
+    public function getPropertyKey(\ReflectionProperty $property) : ?string;
 }

@@ -44,28 +44,13 @@ class UnresolvedValueException extends \RuntimeException
      */
     private static function getParameterName(\ReflectionParameter $parameter) : string
     {
-        return self::getTypeHint($parameter) . '$' . $parameter->getName();
-    }
+        $parameterType = '';
 
-    /**
-     * Helper class for getParameterName().
-     *
-     * @param \ReflectionParameter $parameter
-     *
-     * @return string
-     */
-    private static function getTypeHint(\ReflectionParameter $parameter) : string
-    {
-        if ($parameter->isArray()) {
-            return 'array ';
+        if (null !== $type = $parameter->getType()) {
+            $parameterType = (string) $type . ' ';
         }
 
-        $class = $parameter->getClass();
-        if ($class) {
-            return $class->getName() . ' ';
-        }
-
-        return '';
+        return $parameterType . '$' . $parameter->getName();
     }
 
     /**

@@ -107,7 +107,7 @@ class BindingDefinition extends Definition
     /**
      * {@inheritdoc}
      */
-    public function getDefaultScope() : Scope
+    protected function getDefaultScope() : Scope
     {
         return Scope::singleton();
     }

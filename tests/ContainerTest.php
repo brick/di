@@ -2,6 +2,7 @@
 
 namespace Brick\Di\Tests;
 
+use Brick\Di\Resolve;
 use Brick\Di\Scope;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Brick\Di\InjectionPolicy\AnnotationPolicy;
@@ -27,13 +28,12 @@ class ContainerTest extends TestCase
         ]);
 
         $container->bind(SomeService::class)->with([
-            'timeout' => 3600
-        ])->using([
+            'timeout' => 3600,
             'config' => [
-                'HOSTNAME' => 'db.host',
+                'HOSTNAME' => new Resolve('db.host'),
                 'CREDENTIALS' => [
-                    'USERNAME' => 'db.user',
-                    'PASSWORD' => 'db.pass'
+                    'USERNAME' => new Resolve('db.user'),
+                    'PASSWORD' => new Resolve('db.pass')
                 ]
             ]
         ]);
@@ -68,10 +68,10 @@ class ContainerTest extends TestCase
     {
         $containerWithoutAnnotations = Container::create();
 
-        $containerWithoutAnnotations->bind(DatabaseConnection::class)->using([
-            'hostname' => 'db.host',
-            'username' => 'db.user',
-            'password' => 'db.pass'
+        $containerWithoutAnnotations->bind(DatabaseConnection::class)->with([
+            'hostname' => new Resolve('db.host'),
+            'username' => new Resolve('db.user'),
+            'password' => new Resolve('db.pass')
         ]);
 
         $reader = new AnnotationReader();
@@ -93,10 +93,10 @@ class ContainerTest extends TestCase
         $container = Container::create();
 
         $container->set('foo', 'bar');
-        $container->bind(DatabaseConnection::class)->in($dbScope)->using([
-                'hostname' => 'foo',
-                'username' => 'foo',
-                'password' => 'foo'
+        $container->bind(DatabaseConnection::class)->in($dbScope)->with([
+                'hostname' => new Resolve('foo'),
+                'username' => new Resolve('foo'),
+                'password' => new Resolve('foo')
             ]);
 
         $container->alias('database.connection.shared', DatabaseConnection::class)->in($aliasScope);

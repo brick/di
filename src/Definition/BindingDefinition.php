@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Di\Definition;
 
 use Brick\Di\Definition;
+use Brick\Di\Resolve;
 use Brick\Di\Scope;
 use Brick\Di\Container;
 
@@ -23,12 +24,7 @@ class BindingDefinition extends Definition
     /**
      * @var array
      */
-    private $withParameters = [];
-
-    /**
-     * @var array
-     */
-    private $usingParameters = [];
+    private $parameters = [];
 
     /**
      * Class constructor.
@@ -55,9 +51,19 @@ class BindingDefinition extends Definition
     /**
      * Sets an associative array of parameters to resolve the binding.
      *
-     * Unlike using(), values can be of any type and will be used as is.
+     * Parameters can include references to other container keys by wrapping keys in a Resolve object.
+     * Resolve objects deeply nested in arrays will also be resolved:
      *
-     * Note that if with() and using() keys conflict, using() takes precedence.
+     *     $container->bind(MyService::class)->with([
+     *       'username' => 'admin'
+     *       'password' => new Resolve('myservice.password'),
+     *       'options' => [
+     *         'timeout' => new Resolve('myservice.timeout'),
+     *       ]
+     *     ]);
+     *
+     * Using `new Resolve()` is conceptually equivalent to calling `$container->get()`, but with Resolve,
+     * the values are only resolved when the object is requested.
      *
      * @param array $parameters
      *
@@ -65,26 +71,7 @@ class BindingDefinition extends Definition
      */
     public function with(array $parameters) : BindingDefinition
     {
-        $this->withParameters = $parameters;
-
-        return $this;
-    }
-
-    /**
-     * Sets an associative array of parameters mapping to container values to resolve the binding.
-     *
-     * Unlike with(), values are keys that will be resolved by the container at injection time.
-     * Values can be either strings, or nested arrays of strings.
-     *
-     * Note that if with() and using() keys conflict, using() takes precedence.
-     *
-     * @param array $parameters
-     *
-     * @return BindingDefinition
-     */
-    public function using(array $parameters) : BindingDefinition
-    {
-        $this->usingParameters = $parameters;
+        $this->parameters = $parameters;
 
         return $this;
     }
@@ -94,14 +81,36 @@ class BindingDefinition extends Definition
      */
     public function resolve(Container $container)
     {
-        $parameters = $container->get($this->usingParameters);
-        $parameters = $parameters + $this->withParameters;
+        $parameters = $this->getParameters($container, $this->parameters);
 
         if ($this->target instanceof \Closure) {
             return $container->getInjector()->invoke($this->target, $parameters);
         }
 
         return $container->getInjector()->instantiate($this->target, $parameters);
+    }
+
+    /**
+     * @param Container $container
+     * @param array     $parameters
+     *
+     * @return array
+     */
+    public function getParameters(Container $container, array $parameters) : array
+    {
+        $result = [];
+
+        foreach ($parameters as $key => $value) {
+            if (is_array($value)) {
+                $result[$key] = $this->getParameters($container, $value);
+            } elseif ($value instanceof Resolve) {
+                $result[$key] = $container->get($value->getKey());
+            } else {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
     }
 
     /**

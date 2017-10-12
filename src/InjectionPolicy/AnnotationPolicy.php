@@ -6,7 +6,6 @@ namespace Brick\Di\InjectionPolicy;
 
 use Brick\Di\Annotation\Inject;
 use Brick\Di\InjectionPolicy;
-use Brick\Reflection\ReflectionTools;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\Reader;
@@ -24,11 +23,6 @@ class AnnotationPolicy implements InjectionPolicy
     private $reader;
 
     /**
-     * @var \Brick\Reflection\ReflectionTools
-     */
-    private $reflectionTools;
-
-    /**
      * Class constructor.
      *
      * @param \Doctrine\Common\Annotations\Reader $reader
@@ -38,7 +32,6 @@ class AnnotationPolicy implements InjectionPolicy
         AnnotationRegistry::registerFile(__DIR__ . '/../Annotation/Inject.php');
 
         $this->reader = $reader;
-        $this->reflectionTools = new ReflectionTools();
     }
 
     /**

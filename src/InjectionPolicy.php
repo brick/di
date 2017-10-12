@@ -12,6 +12,8 @@ interface InjectionPolicy
     /**
      * Should the given class be injected if it has not been registered with the container?
      *
+     * If a class is declared as injected, its subclasses are considered injected as well.
+     *
      * @param \ReflectionClass $class
      *
      * @return bool

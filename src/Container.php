@@ -63,7 +63,7 @@ class Container
     /**
      * @return Injector
      */
-    public function getInjector(): Injector
+    public function getInjector() : Injector
     {
         return $this->injector;
     }

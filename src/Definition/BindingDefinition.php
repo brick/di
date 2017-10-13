@@ -51,6 +51,9 @@ class BindingDefinition extends Definition
     /**
      * Sets an associative array of parameters to resolve the binding.
      *
+     * These will be used to resolve the parameters of the bound closure, or the constructor parameters of the bound
+     * class. The array keys must match the closure/constructor parameter names.
+     *
      * Parameters can include references to other container keys by wrapping keys in a Resolve object.
      * Resolve objects deeply nested in arrays will also be resolved:
      *
@@ -63,7 +66,7 @@ class BindingDefinition extends Definition
      *     ]);
      *
      * Using `new Resolve()` is conceptually equivalent to calling `$container->get()`, but with Resolve,
-     * the values are only resolved when the object is requested.
+     * the values are resolved just-in-time, when the object is requested.
      *
      * @param array $parameters
      *

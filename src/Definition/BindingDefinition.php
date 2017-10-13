@@ -96,7 +96,7 @@ class BindingDefinition extends Definition
      *
      * @return array
      */
-    public function getParameters(Container $container, array $parameters) : array
+    private function getParameters(Container $container, array $parameters) : array
     {
         $result = [];
 

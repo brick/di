@@ -208,24 +208,14 @@ class Container
     }
 
     /**
-     * @param string|array $key
+     * @param string $key
      *
      * @return mixed
      *
      * @throws DependencyInjectionException If the key is not registered.
      */
-    public function get($key)
+    public function get(string $key)
     {
-        if (is_array($key)) {
-            $result = [];
-
-            foreach ($key as $k => $v) {
-                $result[$k] = $this->get($v);
-            }
-
-            return $result;
-        }
-
         if (! $this->has($key)) {
             throw DependencyInjectionException::keyNotRegistered($key);
         }

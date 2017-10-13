@@ -33,6 +33,8 @@ abstract class Definition
      *
      * This method is for internal use by the Container.
      *
+     * @internal
+     *
      * @param Container $container
      *
      * @return mixed
@@ -50,6 +52,8 @@ abstract class Definition
      * Resolves the value of this definition, regardless of the Scope.
      *
      * This method is for internal use by the Scopes.
+     *
+     * @internal
      *
      * @param Container $container
      *

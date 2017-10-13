@@ -41,8 +41,11 @@ class Injector
     /**
      * Invokes a function after resolving its parameters.
      *
+     * If the given parameters match the function parameter names, the given values are used.
+     * Otherwise, the function parameters are resolved using the ValueResolver.
+     *
      * @param callable $function   The function to invoke.
-     * @param array    $parameters An associative array of parameters that will take precedence over the resolver.
+     * @param array    $parameters An associative array of values for the function parameters.
      *
      * @return mixed The result of the function call.
      *
@@ -59,8 +62,11 @@ class Injector
     /**
      * Instantiates a class by resolving its constructor parameters, and injects dependencies in the resulting object.
      *
+     * If the given parameters match the constructor parameter names, the given values are used.
+     * Otherwise, the constructor parameters are resolved using the ValueResolver.
+     *
      * @param string $class      The name of the class to instantiate.
-     * @param array  $parameters An associative array of parameters that will take precedence over the resolver.
+     * @param array  $parameters An associative array of values for the constructor parameters.
      *
      * @return object The instantiated object.
      *

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\Di;
 
-use Brick\Di\ValueResolver\ArrayValueResolver;
 use Brick\Reflection\ReflectionTools;
 
 /**
@@ -18,7 +17,7 @@ class Injector
     private $policy;
 
     /**
-     * @var \Brick\Di\ValueResolver\ArrayValueResolver
+     * @var \Brick\Di\ValueResolver
      */
     private $resolver;
 
@@ -34,7 +33,7 @@ class Injector
     public function __construct(ValueResolver $resolver, InjectionPolicy $policy)
     {
         $this->policy = $policy;
-        $this->resolver = new ArrayValueResolver($resolver);
+        $this->resolver = $resolver;
         $this->reflectionTools = new ReflectionTools();
     }
 
@@ -157,10 +156,9 @@ class Injector
     {
         $result = [];
 
-        $this->resolver->setParameterValues($parameters);
-
         foreach ($function->getParameters() as $parameter) {
-            $value = $this->resolver->getParameterValue($parameter);
+            $name = $parameter->getName();
+            $value = $parameters[$name] ?? $this->resolver->getParameterValue($parameter);
 
             if ($parameter->isVariadic()) {
                 $result = array_merge($result, $value);
@@ -168,8 +166,6 @@ class Injector
                 $result[] = $value;
             }
         }
-
-        $this->resolver->setParameterValues([]);
 
         return $result;
     }

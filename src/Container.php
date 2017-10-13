@@ -190,21 +190,24 @@ class Container
      */
     public function has(string $key) : bool
     {
-        if (! isset($this->items[$key])) {
-            if (class_exists($key)) {
-                $class = new \ReflectionClass($key);
-                $classes = $this->reflectionTools->getClassHierarchy($class);
+        if (isset($this->items[$key])) {
+            return true;
+        }
 
-                foreach ($classes as $class) {
-                    if ($this->injectionPolicy->isClassInjected($class)) {
-                        $this->bind($key); // @todo allow to configure scope (singleton) with annotations
-                        break;
-                    }
+        if (class_exists($key)) {
+            $class = new \ReflectionClass($key);
+            $classes = $this->reflectionTools->getClassHierarchy($class);
+
+            foreach ($classes as $class) {
+                if ($this->injectionPolicy->isClassInjected($class)) {
+                    $this->bind($key); // @todo allow to configure scope (singleton) with annotations
+
+                    return true;
                 }
             }
         }
 
-        return isset($this->items[$key]);
+        return false;
     }
 
     /**

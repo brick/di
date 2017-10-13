@@ -19,7 +19,12 @@ class ArrayValueResolver implements ValueResolver
     /**
      * @var array
      */
-    private $values = [];
+    private $parameterValues = [];
+
+    /**
+     * @var array
+     */
+    private $propertyValues = [];
 
     /**
      * Class constructor.
@@ -36,9 +41,19 @@ class ArrayValueResolver implements ValueResolver
      *
      * @return void
      */
-    public function setValues(array $values) : void
+    public function setParameterValues(array $values) : void
     {
-        $this->values = $values;
+        $this->parameterValues = $values;
+    }
+
+    /**
+     * @param array $values
+     *
+     * @return void
+     */
+    public function setPropertyValues(array $values) : void
+    {
+        $this->propertyValues = $values;
     }
 
     /**
@@ -48,8 +63,8 @@ class ArrayValueResolver implements ValueResolver
     {
         $name = $parameter->getName();
 
-        if (isset($this->values[$name])) {
-            return $this->values[$name];
+        if (isset($this->parameterValues[$name])) {
+            return $this->parameterValues[$name];
         }
 
         return $this->fallback->getParameterValue($parameter);
@@ -62,8 +77,8 @@ class ArrayValueResolver implements ValueResolver
     {
         $name = $property->getName();
 
-        if (isset($this->values[$name])) {
-            return $this->values[$name];
+        if (isset($this->propertyValues[$name])) {
+            return $this->propertyValues[$name];
         }
 
         return $this->fallback->getPropertyValue($property);

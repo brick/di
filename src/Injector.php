@@ -151,7 +151,7 @@ class Injector
     {
         $result = [];
 
-        $this->resolver->setValues($parameters);
+        $this->resolver->setParameterValues($parameters);
 
         foreach ($function->getParameters() as $parameter) {
             $value = $this->resolver->getParameterValue($parameter);
@@ -163,7 +163,7 @@ class Injector
             }
         }
 
-        $this->resolver->setValues([]);
+        $this->resolver->setParameterValues([]);
 
         return $result;
     }

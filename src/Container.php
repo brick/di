@@ -43,10 +43,14 @@ class Container
     /**
      * Class constructor.
      *
-     * @param InjectionPolicy $policy
+     * @param InjectionPolicy|null $policy
      */
-    public function __construct(InjectionPolicy $policy)
+    public function __construct(InjectionPolicy $policy = null)
     {
+        if ($policy === null) {
+            $policy = new NullPolicy();
+        }
+
         $this->injectionPolicy = $policy;
         $this->valueResolver = new ContainerValueResolver($this);
         $this->injector = new Injector($this->valueResolver, $policy);
@@ -54,16 +58,6 @@ class Container
 
         $this->set(self::class, $this);
         $this->set(Injector::class, $this->injector);
-    }
-
-    /**
-     * Creates a simple dependency injection container.
-     *
-     * @return Container
-     */
-    public static function create() : Container
-    {
-        return new Container(new NullPolicy());
     }
 
     /**

@@ -66,7 +66,7 @@ class ContainerTest extends TestCase
      */
     public function containerProvider()
     {
-        $containerWithoutAnnotations = Container::create();
+        $containerWithoutAnnotations = new Container();
 
         $containerWithoutAnnotations->bind(DatabaseConnection::class)->with([
             'hostname' => new Resolve('db.host'),
@@ -90,7 +90,7 @@ class ContainerTest extends TestCase
      */
     public function testScope(Scope $dbScope, Scope $aliasScope, $dbSame, $aliasSame)
     {
-        $container = Container::create();
+        $container = new Container();
 
         $container->set('foo', 'bar');
         $container->bind(DatabaseConnection::class)->in($dbScope)->with([

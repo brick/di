@@ -86,11 +86,7 @@ class AnnotationPolicy implements InjectionPolicy
         if ($function instanceof \ReflectionMethod) {
             foreach ($this->reader->getMethodAnnotations($function) as $annotation) {
                 if ($annotation instanceof Inject) {
-                    $value = $annotation->getValue($parameter->getName());
-
-                    if ($value !== null) {
-                        return $value;
-                    }
+                    return $annotation->getValue($parameter->getName());
                 }
             }
         }
@@ -105,11 +101,7 @@ class AnnotationPolicy implements InjectionPolicy
     {
         foreach ($this->reader->getPropertyAnnotations($property) as $annotation) {
             if ($annotation instanceof Inject) {
-                $value = $annotation->getSingleValue();
-
-                if ($value !== null) {
-                    return $value;
-                }
+                return $annotation->getSingleValue();
             }
         }
 

@@ -32,7 +32,7 @@ class Inject
      */
     public function getValue(string $name) : ?string
     {
-        return isset($this->values[$name]) ? $this->values[$name] : null;
+        return $this->values[$name] ?? null;
     }
 
     /**
@@ -42,6 +42,6 @@ class Inject
      */
     public function getSingleValue() : ?string
     {
-        return $this->getValue('value');
+        return $this->values['value'] ?? null;
     }
 }

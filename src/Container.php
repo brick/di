@@ -21,11 +21,6 @@ class Container
     private $injectionPolicy;
 
     /**
-     * @var array
-     */
-    private $items = [];
-
-    /**
      * @var \Brick\Di\Injector
      */
     private $injector;
@@ -39,6 +34,11 @@ class Container
      * @var \Brick\Reflection\ReflectionTools
      */
     private $reflectionTools;
+
+    /**
+     * @var array
+     */
+    private $items = [];
 
     /**
      * Class constructor.

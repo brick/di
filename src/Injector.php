@@ -151,8 +151,9 @@ class Injector
     {
         $result = [];
 
+        $this->resolver->setValues($parameters);
+
         foreach ($function->getParameters() as $parameter) {
-            $this->resolver->setValues($parameters);
             $value = $this->resolver->getParameterValue($parameter);
 
             if ($parameter->isVariadic()) {
@@ -160,9 +161,9 @@ class Injector
             } else {
                 $result[] = $value;
             }
-
-            $this->resolver->setValues([]);
         }
+
+        $this->resolver->setValues([]);
 
         return $result;
     }

@@ -85,6 +85,59 @@ class Container
     }
 
     /**
+     * Returns whether the container has the given key.
+     *
+     * @param string $key The key, class or interface name.
+     *
+     * @return bool
+     */
+    public function has(string $key) : bool
+    {
+        if (isset($this->items[$key])) {
+            return true;
+        }
+
+        if (class_exists($key)) {
+            $class = new \ReflectionClass($key);
+            $classes = $this->reflectionTools->getClassHierarchy($class);
+
+            foreach ($classes as $class) {
+                if ($this->injectionPolicy->isClassInjected($class)) {
+                    $this->bind($key); // @todo allow to configure scope (singleton) with annotations
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the value for the given key.
+     *
+     * @param string $key The key, class or interface name.
+     *
+     * @return mixed
+     *
+     * @throws DependencyInjectionException If the key is not registered.
+     */
+    public function get(string $key)
+    {
+        if (! $this->has($key)) {
+            throw DependencyInjectionException::keyNotRegistered($key);
+        }
+
+        $value = $this->items[$key];
+
+        if ($value instanceof Definition) {
+            return $value->get($this);
+        }
+
+        return $value;
+    }
+
+    /**
      * Sets a single value.
      *
      * The value will be returned as is when requested with get().
@@ -139,7 +192,7 @@ class Container
      *
      * Do not use bind() to attach an existing object instance. Use set() instead.
      *
-     * @param string $key
+     * @param string $key The key, class or interface name.
      *
      * @return BindingDefinition
      */
@@ -167,62 +220,13 @@ class Container
      *     $container->bind('Class\Name')->in(Scope::prototype());
      *     $container->alias('my.shared.instance', 'Class\Name')->in(Scope::singleton());
      *
-     * @param string $key
-     * @param string $target
+     * @param string $key    The key, class or interface name.
+     * @param string $target The target key.
      *
      * @return \Brick\Di\Definition\AliasDefinition
      */
     public function alias(string $key, string $target) : AliasDefinition
     {
         return $this->items[$key] = new AliasDefinition($target);
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function has(string $key) : bool
-    {
-        if (isset($this->items[$key])) {
-            return true;
-        }
-
-        if (class_exists($key)) {
-            $class = new \ReflectionClass($key);
-            $classes = $this->reflectionTools->getClassHierarchy($class);
-
-            foreach ($classes as $class) {
-                if ($this->injectionPolicy->isClassInjected($class)) {
-                    $this->bind($key); // @todo allow to configure scope (singleton) with annotations
-
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return mixed
-     *
-     * @throws DependencyInjectionException If the key is not registered.
-     */
-    public function get(string $key)
-    {
-        if (! $this->has($key)) {
-            throw DependencyInjectionException::keyNotRegistered($key);
-        }
-
-        $value = $this->items[$key];
-
-        if ($value instanceof Definition) {
-            return $value->get($this);
-        }
-
-        return $value;
     }
 }

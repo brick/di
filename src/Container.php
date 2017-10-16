@@ -97,16 +97,19 @@ class Container
             return true;
         }
 
-        if (class_exists($key)) {
+        try {
             $class = new \ReflectionClass($key);
-            $classes = $this->reflectionTools->getClassHierarchy($class);
+        } catch (\ReflectionException $e) {
+            return false;
+        }
 
-            foreach ($classes as $class) {
-                if ($this->injectionPolicy->isClassInjected($class)) {
-                    $this->bind($key); // @todo allow to configure scope (singleton) with annotations
+        $classes = $this->reflectionTools->getClassHierarchy($class);
 
-                    return true;
-                }
+        foreach ($classes as $class) {
+            if ($this->injectionPolicy->isClassInjected($class)) {
+                $this->bind($key); // @todo allow to configure scope (singleton) with annotations
+
+                return true;
             }
         }
 

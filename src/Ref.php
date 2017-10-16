@@ -3,9 +3,9 @@
 namespace Brick\Di;
 
 /**
- * Value object used in bindings to defer resolving of container keys.
+ * Value object used in bindings to reference a container key.
  */
-class Resolve
+class Ref
 {
     /**
      * @var string

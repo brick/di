@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Brick\Di\Definition;
 
 use Brick\Di\Definition;
-use Brick\Di\Resolve;
+use Brick\Di\Ref;
 use Brick\Di\Scope;
 use Brick\Di\Container;
 
@@ -54,18 +54,18 @@ class BindingDefinition extends Definition
      * These will be used to resolve the parameters of the bound closure, or the constructor parameters of the bound
      * class. The array keys must match the closure/constructor parameter names.
      *
-     * Parameters can include references to other container keys by wrapping keys in a Resolve object.
-     * Resolve objects deeply nested in arrays will also be resolved:
+     * Parameters can include references to other container keys by wrapping keys in a `Ref` object.
+     * `Ref` objects deeply nested in arrays will also be resolved:
      *
      *     $container->bind(MyService::class)->with([
      *       'username' => 'admin'
-     *       'password' => new Resolve('myservice.password'),
+     *       'password' => new Ref('myservice.password'),
      *       'options' => [
-     *         'timeout' => new Resolve('myservice.timeout'),
+     *         'timeout' => new Ref('myservice.timeout'),
      *       ]
      *     ]);
      *
-     * Using `new Resolve()` is conceptually equivalent to calling `$container->get()`, but with Resolve,
+     * Using `new Ref()` is conceptually equivalent to calling `$container->get()`, but with `Ref`,
      * the values are resolved just-in-time, when the object is requested.
      *
      * @param array $parameters
@@ -106,7 +106,7 @@ class BindingDefinition extends Definition
         foreach ($parameters as $key => $value) {
             if (is_array($value)) {
                 $result[$key] = $this->getParameters($container, $value);
-            } elseif ($value instanceof Resolve) {
+            } elseif ($value instanceof Ref) {
                 $result[$key] = $container->get($value->getKey());
             } else {
                 $result[$key] = $value;

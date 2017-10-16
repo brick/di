@@ -2,7 +2,7 @@
 
 namespace Brick\Di\Tests;
 
-use Brick\Di\Resolve;
+use Brick\Di\Ref;
 use Brick\Di\Scope;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Brick\Di\InjectionPolicy\AnnotationPolicy;
@@ -30,10 +30,10 @@ class ContainerTest extends TestCase
         $container->bind(SomeService::class)->with([
             'timeout' => 3600,
             'config' => [
-                'HOSTNAME' => new Resolve('db.host'),
+                'HOSTNAME' => new Ref('db.host'),
                 'CREDENTIALS' => [
-                    'USERNAME' => new Resolve('db.user'),
-                    'PASSWORD' => new Resolve('db.pass')
+                    'USERNAME' => new Ref('db.user'),
+                    'PASSWORD' => new Ref('db.pass')
                 ]
             ]
         ]);
@@ -69,9 +69,9 @@ class ContainerTest extends TestCase
         $containerWithoutAnnotations = new Container();
 
         $containerWithoutAnnotations->bind(DatabaseConnection::class)->with([
-            'hostname' => new Resolve('db.host'),
-            'username' => new Resolve('db.user'),
-            'password' => new Resolve('db.pass')
+            'hostname' => new Ref('db.host'),
+            'username' => new Ref('db.user'),
+            'password' => new Ref('db.pass')
         ]);
 
         $reader = new AnnotationReader();
@@ -94,9 +94,9 @@ class ContainerTest extends TestCase
 
         $container->set('foo', 'bar');
         $container->bind(DatabaseConnection::class)->in($dbScope)->with([
-                'hostname' => new Resolve('foo'),
-                'username' => new Resolve('foo'),
-                'password' => new Resolve('foo')
+                'hostname' => new Ref('foo'),
+                'username' => new Ref('foo'),
+                'password' => new Ref('foo')
             ]);
 
         $container->alias('database.connection.shared', DatabaseConnection::class)->in($aliasScope);

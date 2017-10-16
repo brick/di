@@ -171,34 +171,51 @@ class Container
     }
 
     /**
-     * Binds a key to a class name or a closure to be instantiated/invocated.
+     * Binds a key to a class name to be instantiated, or to a closure to be invoked.
      *
      * By default, the key is bound to itself, so these two lines of code are equivalent;
      *
      *     $container->bind('Class\Name');
-     *     $container->bind('Class\Name')->to('Class\Name');
+     *     $container->bind('Class\Name', 'Class\Name');
      *
      * It can be used to bind an interface to a class to be instantiated:
      *
-     *     $container->bind('Interface\Name')->to('Class\Name');
+     *     $container->bind('Interface\Name', 'Class\Name');
      *
      * The key can also be bound to a closure to return any value:
      *
-     *     $container->bind('Class\Or\Interface\Name')->to(function() {
+     *     $container->bind('Class\Or\Interface\Name', function() {
      *         return new Class\Name();
      *     });
      *
-     * Any parameters required by the closure will be automatically resolved.
+     * If the key is an interface name, the target must be the name of a class implementing this interface,
+     * or a closure returning an instance of such class.
      *
-     * Do not use bind() to attach an existing object instance. Use set() instead.
+     * If the key is a class name, the target must be the name of the class or one of its subclasses,
+     * or a closure returning an instance of this class.
      *
-     * @param string $key The key, class or interface name.
+     * Any parameters required by the class constructor or the closure will be automatically resolved when possible
+     * using type-hinted classes or interfaces. Additional parameters can be passed as an associative array using
+     * the with() method:
+     *
+     *     $container->bind('Interface\Name', 'Class\Name')->with([
+     *         'username' => 'admin',
+     *         'password' => new Ref('config.password')
+     *     ]);
+     *
+     * Fixed parameters can be provided as is, and references to container keys can be provided by wrapping the key in
+     * a `Ref` object. See `BindingDefinition::with()` for more information.
+     *
+     * Note: not use bind() to attach an existing object instance. Use set() instead.
+     *
+     * @param string               $key    The key, class or interface name.
+     * @param \Closure|string|null $target The class name or closure to bind. Optional if the key is the class name.
      *
      * @return BindingDefinition
      */
-    public function bind(string $key) : BindingDefinition
+    public function bind(string $key, $target = null) : BindingDefinition
     {
-        return $this->items[$key] = new BindingDefinition($key);
+        return $this->items[$key] = new BindingDefinition($target ?? $key);
     }
 
     /**
@@ -220,13 +237,13 @@ class Container
      *     $container->bind('Class\Name')->in(Scope::prototype());
      *     $container->alias('my.shared.instance', 'Class\Name')->in(Scope::singleton());
      *
-     * @param string $key    The key, class or interface name.
-     * @param string $target The target key.
+     * @param string $key       The key, class or interface name.
+     * @param string $targetKey The target key.
      *
      * @return \Brick\Di\Definition\AliasDefinition
      */
-    public function alias(string $key, string $target) : AliasDefinition
+    public function alias(string $key, string $targetKey) : AliasDefinition
     {
-        return $this->items[$key] = new AliasDefinition($target);
+        return $this->items[$key] = new AliasDefinition($targetKey);
     }
 }

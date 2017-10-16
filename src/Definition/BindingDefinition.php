@@ -37,18 +37,6 @@ class BindingDefinition extends Definition
     }
 
     /**
-     * @param \Closure|string $target
-     *
-     * @return BindingDefinition
-     */
-    public function to($target) : BindingDefinition
-    {
-        $this->target = $target;
-
-        return $this;
-    }
-
-    /**
      * Sets an associative array of parameters to resolve the binding.
      *
      * These will be used to resolve the parameters of the bound closure, or the constructor parameters of the bound

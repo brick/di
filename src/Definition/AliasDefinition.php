@@ -16,14 +16,14 @@ class AliasDefinition extends Definition
     /**
      * @var string
      */
-    private $target;
+    private $targetKey;
 
     /**
-     * @param string $target
+     * @param string $targetKey
      */
-    public function __construct(string $target)
+    public function __construct(string $targetKey)
     {
-        $this->target = $target;
+        $this->targetKey = $targetKey;
     }
 
     /**
@@ -31,7 +31,7 @@ class AliasDefinition extends Definition
      */
     public function resolve(Container $container)
     {
-        return $container->get($this->target);
+        return $container->get($this->targetKey);
     }
 
     /**

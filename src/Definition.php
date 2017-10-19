@@ -12,7 +12,7 @@ abstract class Definition
     /**
      * @var Scope|null
      */
-    private $scope = null;
+    private $scope;
 
     /**
      * Changes the scope of this definition.

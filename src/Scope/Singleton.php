@@ -11,7 +11,7 @@ use Brick\Di\Container;
 /**
  * The definition will be resolved once, then the same result will be returned every time it is requested.
  */
-class Singleton extends Scope
+class Singleton implements Scope
 {
     /**
      * @var bool

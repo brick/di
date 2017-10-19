@@ -237,8 +237,8 @@ class Container
      * An alias always queries the current value by default, unless you change its scope,
      * which may be used for advanced use cases, such as creating singletons out of a prototype:
      *
-     *     $container->bind('Class\Name')->in(Scope::prototype());
-     *     $container->alias('my.shared.instance', 'Class\Name')->in(Scope::singleton());
+     *     $container->bind('Class\Name')->in(new Scope\Prototype());
+     *     $container->alias('my.shared.instance', 'Class\Name')->in(new Scope\Singleton());
      *
      * @param string $key       The key, class or interface name.
      * @param string $targetKey The target key.

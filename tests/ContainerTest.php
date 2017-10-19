@@ -111,10 +111,10 @@ class ContainerTest extends TestCase
     public function providerScope()
     {
         return [
-            [Scope::singleton(), Scope::singleton(), true, true],
-            [Scope::singleton(), Scope::prototype(), true, true],
-            [Scope::prototype(), Scope::singleton(), false, true],
-            [Scope::prototype(), Scope::prototype(), false, false],
+            [new Scope\Singleton(), new Scope\Singleton(), true, true],
+            [new Scope\Singleton(), new Scope\Prototype(), true, true],
+            [new Scope\Prototype(), new Scope\Singleton(), false, true],
+            [new Scope\Prototype(), new Scope\Prototype(), false, false],
         ];
     }
 

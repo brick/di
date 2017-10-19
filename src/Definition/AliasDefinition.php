@@ -39,6 +39,6 @@ class AliasDefinition extends Definition
      */
     protected function getDefaultScope() : Scope
     {
-        return Scope::prototype();
+        return new Scope\Prototype();
     }
 }

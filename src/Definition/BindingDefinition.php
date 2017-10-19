@@ -109,6 +109,6 @@ class BindingDefinition extends Definition
      */
     protected function getDefaultScope() : Scope
     {
-        return Scope::singleton();
+        return new Scope\Singleton();
     }
 }

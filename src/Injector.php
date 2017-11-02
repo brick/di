@@ -158,7 +158,12 @@ class Injector
 
         foreach ($function->getParameters() as $parameter) {
             $name = $parameter->getName();
-            $value = $parameters[$name] ?? $this->resolver->getParameterValue($parameter);
+
+            if (array_key_exists($name, $parameters)) {
+                $value = $parameters[$name];
+            } else {
+                $value = $this->resolver->getParameterValue($parameter);
+            }
 
             if ($parameter->isVariadic()) {
                 $result = array_merge($result, $value);

@@ -98,7 +98,7 @@ class Injector
      *
      * @return void
      */
-    public function inject($object) : void
+    public function inject(object $object) : void
     {
         $reflection = new \ReflectionObject($object);
 
@@ -112,7 +112,7 @@ class Injector
      *
      * @return void
      */
-    private function injectMethods(\ReflectionClass $class, $object) : void
+    private function injectMethods(\ReflectionClass $class, object $object) : void
     {
         foreach ($this->reflectionTools->getClassMethods($class) as $method) {
             if ($this->policy->isMethodInjected($method)) {
@@ -129,7 +129,7 @@ class Injector
      *
      * @return void
      */
-    private function injectProperties(\ReflectionClass $class, $object) : void
+    private function injectProperties(\ReflectionClass $class, object $object) : void
     {
         foreach ($this->reflectionTools->getClassProperties($class) as $property) {
             if ($this->policy->isPropertyInjected($property)) {

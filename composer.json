@@ -12,7 +12,7 @@
     "license": "MIT",
     "require": {
         "php": ">=7.2",
-        "brick/reflection": "^0.2.4",
+        "brick/reflection": "~0.2.4 || ~0.3.0",
         "doctrine/annotations": "1.*"
     },
     "require-dev": {

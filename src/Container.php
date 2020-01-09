@@ -45,7 +45,7 @@ class Container
      *
      * @param InjectionPolicy|null $policy
      */
-    public function __construct(InjectionPolicy $policy = null)
+    public function __construct(?InjectionPolicy $policy = null)
     {
         if ($policy === null) {
             $policy = new NullPolicy();

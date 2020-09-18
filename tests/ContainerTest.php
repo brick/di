@@ -4,9 +4,8 @@ namespace Brick\Di\Tests;
 
 use Brick\Di\Ref;
 use Brick\Di\Scope;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Brick\Di\InjectionPolicy\AnnotationPolicy;
-use Brick\Di\Annotation\Inject;
+use Brick\Di\InjectionPolicy\AttributePolicy;
+use Brick\Di\Attribute\Inject;
 use Brick\Di\Container;
 
 use PHPUnit\Framework\TestCase;
@@ -66,22 +65,21 @@ class ContainerTest extends TestCase
      */
     public function containerProvider()
     {
-        $containerWithoutAnnotations = new Container();
+        $containerWithoutAttributes = new Container();
 
-        $containerWithoutAnnotations->bind(DatabaseConnection::class)->with([
+        $containerWithoutAttributes->bind(DatabaseConnection::class)->with([
             'hostname' => new Ref('db.host'),
             'username' => new Ref('db.user'),
             'password' => new Ref('db.pass')
         ]);
 
-        $reader = new AnnotationReader();
-        $policy = new AnnotationPolicy($reader);
+        $policy = new AttributePolicy();
 
-        $containerWithAnnotations = new Container($policy);
+        $containerWithAttributes = new Container($policy);
 
         return [
-            [$containerWithoutAnnotations],
-            [$containerWithAnnotations]
+            [$containerWithoutAttributes],
+            [$containerWithAttributes]
         ];
     }
 
@@ -135,18 +133,14 @@ class ContainerTest extends TestCase
     }
 }
 
-/**
- * @Inject
- */
+#[Inject]
 class DatabaseConnection
 {
     public $hostname;
     public $username;
     public $password;
 
-    /**
-     * @Inject(hostname="db.host", username="db.user", password="db.pass")
-     */
+    #[Inject(['hostname' => 'db.host', 'username' => 'db.user', 'password' => 'db.pass'])]
     public function __construct($hostname, $username, $password)
     {
         $this->hostname = $hostname;

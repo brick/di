@@ -107,7 +107,7 @@ class Container
 
         foreach ($classes as $class) {
             if ($this->injectionPolicy->isClassInjected($class)) {
-                $this->bind($key); // @todo allow to configure scope (singleton) with annotations
+                $this->bind($key); // @todo allow to configure scope (singleton) with attributes
 
                 return true;
             }

@@ -1,15 +1,13 @@
 language: php
 
 php:
-  - 7.2
-  - 7.3
-  - 7.4
+  - nightly
 
 before_script:
   - |
     # not all dependencies advertise PHP 8 support yet
     composer config platform.php 7.4.0
-  - composer install
+  - composer install --ignore-platform-reqs
 
 script:
   - mkdir -p build/logs

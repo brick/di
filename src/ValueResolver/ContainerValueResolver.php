@@ -39,9 +39,9 @@ class ContainerValueResolver implements ValueResolver
         }
 
         // Try to resolve the parameter by type.
-        $class = $parameter->getClass();
-        if ($class) {
-            $className = $class->getName();
+        $type = $parameter->getType();
+        if ($type) {
+            $className = $type->getName();
             if ($this->container->has($className)) {
                 return $this->container->get($className);
             }

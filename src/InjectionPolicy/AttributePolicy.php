@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Di\InjectionPolicy;
 
-use Brick\Di\Attribute\Inject;
+use Brick\Di\Inject;
 use Brick\Di\InjectionPolicy;
 
 /**

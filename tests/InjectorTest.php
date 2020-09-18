@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class InjectorTest extends TestCase
 {
-    public function testCanInjectPrivateMethod()
+    public function testCanInjectPrivateMethod() : void
     {
         $injector = new Injector(new DefaultValueResolver(), new NullPolicy());
 
@@ -26,10 +26,10 @@ class InjectorTest extends TestCase
 
 class PrivateConstructor
 {
-    public $foo;
-    public $bar;
+    public string $foo;
+    public string $bar;
 
-    private function __construct($foo, $bar)
+    private function __construct(string $foo, string $bar)
     {
         $this->foo = $foo;
         $this->bar = $bar;

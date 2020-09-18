@@ -13,10 +13,7 @@ use Brick\Di\Container;
  */
 class Prototype implements Scope
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function get(Definition $definition, Container $container)
+    public function get(Definition $definition, Container $container) : mixed
     {
         return $definition->resolve($container);
     }

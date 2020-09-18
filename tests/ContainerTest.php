@@ -18,7 +18,7 @@ class ContainerTest extends TestCase
     /**
      * @dataProvider containerProvider
      */
-    public function testContainer(Container $container)
+    public function testContainer(Container $container) : void
     {
         $container->add([
             'db.host' => 'localhost',
@@ -60,10 +60,7 @@ class ContainerTest extends TestCase
         ], $service->service->config);
     }
 
-    /**
-     * @return array
-     */
-    public function containerProvider()
+    public function containerProvider() : array
     {
         $containerWithoutAttributes = new Container();
 
@@ -86,7 +83,7 @@ class ContainerTest extends TestCase
     /**
      * @dataProvider providerScope
      */
-    public function testScope(Scope $dbScope, Scope $aliasScope, $dbSame, $aliasSame)
+    public function testScope(Scope $dbScope, Scope $aliasScope, bool $dbSame, bool $aliasSame) : void
     {
         $container = new Container();
 
@@ -106,7 +103,7 @@ class ContainerTest extends TestCase
     /**
      * @return array
      */
-    public function providerScope()
+    public function providerScope() : array
     {
         return [
             [new Scope\Singleton(), new Scope\Singleton(), true, true],
@@ -116,12 +113,7 @@ class ContainerTest extends TestCase
         ];
     }
 
-    /**
-     * @param Container $container
-     * @param string    $key
-     * @param bool      $same
-     */
-    private function assertResult(Container $container, $key, $same)
+    private function assertResult(Container $container, string $key, bool $same) : void
     {
         $a = $container->get($key);
         $b = $container->get($key);
@@ -136,12 +128,12 @@ class ContainerTest extends TestCase
 #[Inject]
 class DatabaseConnection
 {
-    public $hostname;
-    public $username;
-    public $password;
+    public string $hostname;
+    public string $username;
+    public string $password;
 
     #[Inject(['hostname' => 'db.host', 'username' => 'db.user', 'password' => 'db.pass'])]
-    public function __construct($hostname, $username, $password)
+    public function __construct(string $hostname, string $username, string $password)
     {
         $this->hostname = $hostname;
         $this->username = $username;
@@ -151,11 +143,11 @@ class DatabaseConnection
 
 class SomeService
 {
-    public $connection;
-    public $timeout;
-    public $config;
+    public DatabaseConnection $connection;
+    public int $timeout;
+    public array $config;
 
-    public function __construct(DatabaseConnection $connection, $timeout, array $config)
+    public function __construct(DatabaseConnection $connection, int $timeout, array $config)
     {
         $this->connection = $connection;
         $this->timeout = $timeout;
@@ -165,8 +157,8 @@ class SomeService
 
 class AnotherService
 {
-    public $connection;
-    public $service;
+    public DatabaseConnection $connection;
+    public SomeService $service;
 
     public function __construct(DatabaseConnection $connection, SomeService $service)
     {

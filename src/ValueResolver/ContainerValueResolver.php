@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Di\ValueResolver;
 
+use Brick\Di\InjectionPolicy;
 use Brick\Di\ValueResolver;
 use Brick\Di\Container;
 use Brick\Reflection\ReflectionTools;
@@ -13,29 +14,14 @@ use Brick\Reflection\ReflectionTools;
  */
 class ContainerValueResolver implements ValueResolver
 {
-    /**
-     * @var \Brick\Di\Container
-     */
-    private $container;
+    private Container $container;
 
-    /**
-     * @var \Brick\Di\InjectionPolicy
-     */
-    private $injectionPolicy;
+    private InjectionPolicy $injectionPolicy;
 
-    /**
-     * @var \Brick\Di\ValueResolver\DefaultValueResolver
-     */
-    private $defaultValueResolver;
+    private DefaultValueResolver $defaultValueResolver;
 
-    /**
-     * @var \Brick\Reflection\ReflectionTools
-     */
-    private $reflectionTools;
+    private ReflectionTools $reflectionTools;
 
-    /**
-     * @param Container $container
-     */
     public function __construct(Container $container)
     {
         $this->container            = $container;
@@ -44,10 +30,7 @@ class ContainerValueResolver implements ValueResolver
         $this->reflectionTools      = new ReflectionTools();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getParameterValue(\ReflectionParameter $parameter)
+    public function getParameterValue(\ReflectionParameter $parameter) : mixed
     {
         // Check if an injection key is available for this parameter.
         $key = $this->injectionPolicy->getParameterKey($parameter);
@@ -70,7 +53,7 @@ class ContainerValueResolver implements ValueResolver
     /**
      * {@inheritdoc}
      */
-    public function getPropertyValue(\ReflectionProperty $property)
+    public function getPropertyValue(\ReflectionProperty $property) : mixed
     {
         // Check if an injection key is available for this property.
         $key = $this->injectionPolicy->getPropertyKey($property);

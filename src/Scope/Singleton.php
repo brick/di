@@ -13,20 +13,14 @@ use Brick\Di\Container;
  */
 class Singleton implements Scope
 {
-    /**
-     * @var bool
-     */
-    private $resolved = false;
+    private bool $resolved = false;
 
-    /**
-     * @var mixed
-     */
-    private $result;
+    private mixed $result;
 
     /**
      * {@inheritdoc}
      */
-    public function get(Definition $definition, Container $container)
+    public function get(Definition $definition, Container $container) : mixed
     {
         if (! $this->resolved) {
             $this->result   = $definition->resolve($container);

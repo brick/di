@@ -18,7 +18,7 @@ interface ValueResolver
      *
      * @throws UnresolvedValueException If the value cannot be resolved.
      */
-    public function getParameterValue(\ReflectionParameter $parameter);
+    public function getParameterValue(\ReflectionParameter $parameter) : mixed;
 
     /**
      * Resolves a value for a class property.
@@ -29,5 +29,5 @@ interface ValueResolver
      *
      * @throws UnresolvedValueException If the value cannot be resolved.
      */
-    public function getPropertyValue(\ReflectionProperty $property);
+    public function getPropertyValue(\ReflectionProperty $property) : mixed;
 }

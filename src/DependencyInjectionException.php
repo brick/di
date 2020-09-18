@@ -9,11 +9,6 @@ namespace Brick\Di;
  */
 class DependencyInjectionException extends \RuntimeException
 {
-    /**
-     * @param string $key
-     *
-     * @return DependencyInjectionException
-     */
     public static function keyNotRegistered(string $key) : DependencyInjectionException
     {
         if (class_exists($key)) {

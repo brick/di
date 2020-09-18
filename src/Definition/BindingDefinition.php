@@ -8,6 +8,7 @@ use Brick\Di\Definition;
 use Brick\Di\Ref;
 use Brick\Di\Scope;
 use Brick\Di\Container;
+use Closure;
 
 /**
  * Resolves a class name.
@@ -16,22 +17,17 @@ class BindingDefinition extends Definition
 {
     /**
      * The class name to instantiate, or a closure to invoke.
-     *
-     * @var \Closure|string
      */
-    private $target;
+    private Closure|string $target;
 
-    /**
-     * @var array
-     */
-    private $parameters = [];
+    private array $parameters = [];
 
     /**
      * Class constructor.
      *
-     * @param \Closure|string $target The class name to instantiate, or a closure to invoke.
+     * @param Closure|string $target The class name to instantiate, or a closure to invoke.
      */
-    public function __construct($target)
+    public function __construct(Closure|string $target)
     {
         $this->target = $target;
     }
@@ -70,23 +66,17 @@ class BindingDefinition extends Definition
     /**
      * {@inheritdoc}
      */
-    public function resolve(Container $container)
+    public function resolve(Container $container) : mixed
     {
         $parameters = $this->getParameters($container, $this->parameters);
 
-        if ($this->target instanceof \Closure) {
+        if ($this->target instanceof Closure) {
             return $container->getInjector()->invoke($this->target, $parameters);
         }
 
         return $container->getInjector()->instantiate($this->target, $parameters);
     }
 
-    /**
-     * @param Container $container
-     * @param array     $parameters
-     *
-     * @return array
-     */
     private function getParameters(Container $container, array $parameters) : array
     {
         $result = [];
@@ -104,9 +94,6 @@ class BindingDefinition extends Definition
         return $result;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultScope() : Scope
     {
         return new Scope\Singleton();

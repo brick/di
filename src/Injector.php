@@ -11,25 +11,12 @@ use Brick\Reflection\ReflectionTools;
  */
 class Injector
 {
-    /**
-     * @var \Brick\Di\InjectionPolicy
-     */
-    private $policy;
+    private InjectionPolicy $policy;
 
-    /**
-     * @var \Brick\Di\ValueResolver
-     */
-    private $resolver;
+    private ValueResolver $resolver;
 
-    /**
-     * @var \Brick\Reflection\ReflectionTools
-     */
-    private $reflectionTools;
+    private ReflectionTools $reflectionTools;
 
-    /**
-     * @param ValueResolver   $resolver
-     * @param InjectionPolicy $policy
-     */
     public function __construct(ValueResolver $resolver, InjectionPolicy $policy)
     {
         $this->policy = $policy;
@@ -50,7 +37,7 @@ class Injector
      *
      * @throws UnresolvedValueException If a function parameter could not be resolved.
      */
-    public function invoke(callable $function, array $parameters = [])
+    public function invoke(callable $function, array $parameters = []) : mixed
     {
         $reflection = $this->reflectionTools->getReflectionFunction($function);
         $parameters = $this->getFunctionParameters($reflection, $parameters);
@@ -95,8 +82,6 @@ class Injector
      * Properties are injected first, then methods.
      *
      * @param object $object The object to inject dependencies in.
-     *
-     * @return void
      */
     public function inject(object $object) : void
     {
@@ -106,12 +91,6 @@ class Injector
         $this->injectMethods($reflection, $object);
     }
 
-    /**
-     * @param \ReflectionClass $class
-     * @param object           $object
-     *
-     * @return void
-     */
     private function injectMethods(\ReflectionClass $class, object $object) : void
     {
         foreach ($this->reflectionTools->getClassMethods($class) as $method) {
@@ -123,12 +102,6 @@ class Injector
         }
     }
 
-    /**
-     * @param \ReflectionClass $class
-     * @param object           $object
-     *
-     * @return void
-     */
     private function injectProperties(\ReflectionClass $class, object $object) : void
     {
         foreach ($this->reflectionTools->getClassProperties($class) as $property) {

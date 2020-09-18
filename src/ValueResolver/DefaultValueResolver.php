@@ -16,7 +16,7 @@ class DefaultValueResolver implements ValueResolver
     /**
      * {@inheritdoc}
      */
-    public function getParameterValue(\ReflectionParameter $parameter)
+    public function getParameterValue(\ReflectionParameter $parameter) : mixed
     {
         if ($parameter->isDefaultValueAvailable()) {
             return $parameter->getDefaultValue();
@@ -28,7 +28,7 @@ class DefaultValueResolver implements ValueResolver
     /**
      * {@inheritdoc}
      */
-    public function getPropertyValue(\ReflectionProperty $property)
+    public function getPropertyValue(\ReflectionProperty $property) : mixed
     {
         $name = $property->getName();
         $class = $property->getDeclaringClass();

@@ -9,11 +9,6 @@ namespace Brick\Di;
  */
 class UnresolvedValueException extends \RuntimeException
 {
-    /**
-     * @param \ReflectionParameter $parameter
-     *
-     * @return UnresolvedValueException
-     */
     public static function unresolvedParameter(\ReflectionParameter $parameter) : UnresolvedValueException
     {
         $message = 'The parameter "%s" from function "%s" could not be resolved';
@@ -22,11 +17,6 @@ class UnresolvedValueException extends \RuntimeException
         return new self($message);
     }
 
-    /**
-     * @param \ReflectionProperty $property
-     *
-     * @return UnresolvedValueException
-     */
     public static function unresolvedProperty(\ReflectionProperty $property) : UnresolvedValueException
     {
         $message = 'The property %s::$%s could not be resolved';
@@ -37,10 +27,6 @@ class UnresolvedValueException extends \RuntimeException
 
     /**
      * Returns the type (if any) + name of a function parameter.
-     *
-     * @param \ReflectionParameter $parameter
-     *
-     * @return string
      */
     private static function getParameterName(\ReflectionParameter $parameter) : string
     {
@@ -55,10 +41,6 @@ class UnresolvedValueException extends \RuntimeException
 
     /**
      * Returns the type (if any) + name of a function.
-     *
-     * @param \ReflectionParameter $parameter
-     *
-     * @return string
      */
     private static function getFunctionName(\ReflectionParameter $parameter) : string
     {
@@ -69,10 +51,6 @@ class UnresolvedValueException extends \RuntimeException
 
     /**
      * Helper class for getFunctionName().
-     *
-     * @param \ReflectionFunctionAbstract $function
-     *
-     * @return string
      */
     private static function getClassName(\ReflectionFunctionAbstract $function) : string
     {

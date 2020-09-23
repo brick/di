@@ -7,9 +7,9 @@ namespace Brick\DI;
 /**
  * Exception thrown by the dependency injection classes.
  */
-class DependencyInjectionException extends \RuntimeException
+class DIException extends \RuntimeException
 {
-    public static function keyNotRegistered(string $key) : DependencyInjectionException
+    public static function keyNotRegistered(string $key) : DIException
     {
         if (class_exists($key)) {
             $message = 'The class "' . $key . '" is not marked as injected, and not registered with the container.';

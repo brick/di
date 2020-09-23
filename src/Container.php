@@ -89,12 +89,12 @@ class Container
      *
      * @param string $key The key, class or interface name.
      *
-     * @throws DependencyInjectionException If the key is not registered.
+     * @throws DIException If the key is not registered.
      */
     public function get(string $key) : mixed
     {
         if (! $this->has($key)) {
-            throw DependencyInjectionException::keyNotRegistered($key);
+            throw DIException::keyNotRegistered($key);
         }
 
         $value = $this->items[$key];

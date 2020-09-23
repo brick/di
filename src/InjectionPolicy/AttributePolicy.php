@@ -39,7 +39,7 @@ class AttributePolicy implements InjectionPolicy
     /**
      * {@inheritdoc}
      */
-    public function getParameterKey(\ReflectionParameter $parameter) : ?string
+    public function getParameterKey(\ReflectionParameter $parameter) : string|null
     {
         $function = $parameter->getDeclaringFunction();
 
@@ -56,7 +56,7 @@ class AttributePolicy implements InjectionPolicy
     /**
      * {@inheritdoc}
      */
-    public function getPropertyKey(\ReflectionProperty $property) : ?string
+    public function getPropertyKey(\ReflectionProperty $property) : string|null
     {
         foreach ($property->getAttributes(Inject::class) as $attribute) {
             /** @var Inject $inject */

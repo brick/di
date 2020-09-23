@@ -35,7 +35,7 @@ class Inject
      *
      * @return string|null
      */
-    public function getValue(string $name) : ?string
+    public function getValue(string $name) : string|null
     {
         if ($this->value === null || is_string($this->value)) {
             return null;
@@ -49,7 +49,7 @@ class Inject
      *
      * @return string|null
      */
-    public function getSingleValue() : ?string
+    public function getSingleValue() : string|null
     {
         if (is_string($this->value)) {
             return $this->value;

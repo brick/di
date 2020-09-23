@@ -26,12 +26,12 @@ class NullPolicy implements InjectionPolicy
         return false;
     }
 
-    public function getParameterKey(\ReflectionParameter $parameter) : ?string
+    public function getParameterKey(\ReflectionParameter $parameter) : string|null
     {
         return null;
     }
 
-    public function getPropertyKey(\ReflectionProperty $property) : ?string
+    public function getPropertyKey(\ReflectionProperty $property) : string|null
     {
         return null;
     }

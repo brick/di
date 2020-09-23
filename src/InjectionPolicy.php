@@ -31,12 +31,12 @@ interface InjectionPolicy
      *
      * If no key is returned, the parameter will be resolved by type.
      */
-    public function getParameterKey(\ReflectionParameter $parameter) : ?string;
+    public function getParameterKey(\ReflectionParameter $parameter) : string|null;
 
     /**
      * Returns the container key to use to resolve the given property, if any.
      *
      * If no key is returned, the property will be resolved by type.
      */
-    public function getPropertyKey(\ReflectionProperty $property) : ?string;
+    public function getPropertyKey(\ReflectionProperty $property) : string|null;
 }

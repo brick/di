@@ -26,7 +26,7 @@ class Container
 
     private array $items = [];
 
-    public function __construct(?InjectionPolicy $policy = null)
+    public function __construct(InjectionPolicy|null $policy = null)
     {
         if ($policy === null) {
             $policy = new NullPolicy();

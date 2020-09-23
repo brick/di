@@ -4,7 +4,7 @@
     "type": "library",
     "keywords": [
         "Brick",
-        "Di",
+        "DI",
         "IoC",
         "Dependency Injection",
         "Inversion of Control"
@@ -20,12 +20,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Brick\\Di\\": "src/"
+            "Brick\\DI\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Brick\\Di\\Tests\\": "tests/"
+            "Brick\\DI\\Tests\\": "tests/"
         }
     }
 }

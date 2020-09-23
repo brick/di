@@ -6,7 +6,7 @@ namespace Brick\Di;
 
 use Brick\Di\Definition\AliasDefinition;
 use Brick\Di\Definition\BindingDefinition;
-use Brick\Di\InjectionPolicy\NullPolicy;
+use Brick\Di\InjectionPolicy\AttributePolicy;
 use Brick\Di\ValueResolver\ContainerValueResolver;
 use Brick\Reflection\ReflectionTools;
 use Closure;
@@ -28,9 +28,7 @@ class Container
 
     public function __construct(InjectionPolicy|null $policy = null)
     {
-        if ($policy === null) {
-            $policy = new NullPolicy();
-        }
+        $policy ??= new AttributePolicy();
 
         $this->injectionPolicy = $policy;
         $this->valueResolver = new ContainerValueResolver($this);

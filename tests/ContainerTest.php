@@ -4,6 +4,7 @@ namespace Brick\Di\Tests;
 
 use Brick\Di\Ref;
 use Brick\Di\Scope;
+use Brick\Di\InjectionPolicy\NullPolicy;
 use Brick\Di\InjectionPolicy\AttributePolicy;
 use Brick\Di\Inject;
 use Brick\Di\Container;
@@ -62,7 +63,7 @@ class ContainerTest extends TestCase
 
     public function containerProvider() : array
     {
-        $containerWithoutAttributes = new Container();
+        $containerWithoutAttributes = new Container(new NullPolicy());
 
         $containerWithoutAttributes->bind(DatabaseConnection::class)->with([
             'hostname' => new Ref('db.host'),
@@ -70,9 +71,7 @@ class ContainerTest extends TestCase
             'password' => new Ref('db.pass')
         ]);
 
-        $policy = new AttributePolicy();
-
-        $containerWithAttributes = new Container($policy);
+        $containerWithAttributes = new Container();
 
         return [
             [$containerWithoutAttributes],
@@ -85,14 +84,14 @@ class ContainerTest extends TestCase
      */
     public function testScope(Scope $dbScope, Scope $aliasScope, bool $dbSame, bool $aliasSame) : void
     {
-        $container = new Container();
+        $container = new Container(new NullPolicy());
 
         $container->set('foo', 'bar');
         $container->bind(DatabaseConnection::class)->in($dbScope)->with([
-                'hostname' => new Ref('foo'),
-                'username' => new Ref('foo'),
-                'password' => new Ref('foo')
-            ]);
+            'hostname' => new Ref('foo'),
+            'username' => new Ref('foo'),
+            'password' => new Ref('foo')
+        ]);
 
         $container->alias('database.connection.shared', DatabaseConnection::class)->in($aliasScope);
 

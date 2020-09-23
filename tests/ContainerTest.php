@@ -5,7 +5,6 @@ namespace Brick\Di\Tests;
 use Brick\Di\Ref;
 use Brick\Di\Scope;
 use Brick\Di\InjectionPolicy\NullPolicy;
-use Brick\Di\InjectionPolicy\AttributePolicy;
 use Brick\Di\Inject;
 use Brick\Di\Container;
 

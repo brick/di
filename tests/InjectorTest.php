@@ -1,10 +1,10 @@
 <?php
 
-namespace Brick\Di\Tests;
+namespace Brick\DI\Tests;
 
-use Brick\Di\InjectionPolicy\NullPolicy;
-use Brick\Di\Injector;
-use Brick\Di\ValueResolver\DefaultValueResolver;
+use Brick\DI\InjectionPolicy\NullPolicy;
+use Brick\DI\Injector;
+use Brick\DI\ValueResolver\DefaultValueResolver;
 
 use PHPUnit\Framework\TestCase;
 

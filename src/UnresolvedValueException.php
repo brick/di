@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brick\Di;
+namespace Brick\DI;
 
 /**
  * Exception thrown when a parameter/property could not be resolved.

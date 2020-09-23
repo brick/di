@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Brick\Di\InjectionPolicy;
+namespace Brick\DI\InjectionPolicy;
 
-use Brick\Di\Inject;
-use Brick\Di\InjectionPolicy;
+use Brick\DI\Inject;
+use Brick\DI\InjectionPolicy;
 
 /**
  * Controls injection with attributes.

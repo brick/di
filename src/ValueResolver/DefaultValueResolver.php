@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Brick\Di\ValueResolver;
+namespace Brick\DI\ValueResolver;
 
-use Brick\Di\ValueResolver;
-use Brick\Di\UnresolvedValueException;
+use Brick\DI\ValueResolver;
+use Brick\DI\UnresolvedValueException;
 
 /**
  * Returns the default value of the parameter/property, if available.

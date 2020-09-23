@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Brick\Di\Definition;
+namespace Brick\DI\Definition;
 
-use Brick\Di\Definition;
-use Brick\Di\Scope;
-use Brick\Di\Container;
+use Brick\DI\Definition;
+use Brick\DI\Scope;
+use Brick\DI\Container;
 
 /**
  * Resolves a key by pointing to another.

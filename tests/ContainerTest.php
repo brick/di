@@ -1,12 +1,12 @@
 <?php
 
-namespace Brick\Di\Tests;
+namespace Brick\DI\Tests;
 
-use Brick\Di\Ref;
-use Brick\Di\Scope;
-use Brick\Di\InjectionPolicy\NullPolicy;
-use Brick\Di\Inject;
-use Brick\Di\Container;
+use Brick\DI\Ref;
+use Brick\DI\Scope;
+use Brick\DI\InjectionPolicy\NullPolicy;
+use Brick\DI\Inject;
+use Brick\DI\Container;
 
 use PHPUnit\Framework\TestCase;
 

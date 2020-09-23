@@ -1,6 +1,6 @@
 <?php
 
-namespace Brick\Di;
+namespace Brick\DI;
 
 /**
  * Value object used in bindings to reference a container key.

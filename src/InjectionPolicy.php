@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brick\Di;
+namespace Brick\DI;
 
 /**
  * Decides which classes, methods & properties should be injected.

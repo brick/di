@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Brick\Di\InjectionPolicy;
+namespace Brick\DI\InjectionPolicy;
 
-use Brick\Di\InjectionPolicy;
+use Brick\DI\InjectionPolicy;
 
 /**
  * Prevents injection of any class, method or property.

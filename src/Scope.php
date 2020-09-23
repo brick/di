@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brick\Di;
+namespace Brick\DI;
 
 /**
  * Defines the re-usability of a resolved definition value.

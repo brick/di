@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brick\Di;
+namespace Brick\DI;
 
 /**
  * Resolves the values of function parameters & class properties.

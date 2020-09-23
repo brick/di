@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Brick\Di\ValueResolver;
+namespace Brick\DI\ValueResolver;
 
-use Brick\Di\InjectionPolicy;
-use Brick\Di\ValueResolver;
-use Brick\Di\Container;
+use Brick\DI\InjectionPolicy;
+use Brick\DI\ValueResolver;
+use Brick\DI\Container;
 use Brick\Reflection\ReflectionTools;
 
 /**

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Brick\Di;
+namespace Brick\DI;
 
-use Brick\Di\Definition\AliasDefinition;
-use Brick\Di\Definition\BindingDefinition;
-use Brick\Di\InjectionPolicy\AttributePolicy;
-use Brick\Di\ValueResolver\ContainerValueResolver;
+use Brick\DI\Definition\AliasDefinition;
+use Brick\DI\Definition\BindingDefinition;
+use Brick\DI\InjectionPolicy\AttributePolicy;
+use Brick\DI\ValueResolver\ContainerValueResolver;
 use Brick\Reflection\ReflectionTools;
 use Closure;
 

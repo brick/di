@@ -1,4 +1,4 @@
-Brick\Di
+Brick\DI
 ========
 
 <img src="https://raw.githubusercontent.com/brick/brick/master/logo.png" alt="" align="left" height="64">

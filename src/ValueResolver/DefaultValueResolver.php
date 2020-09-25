@@ -6,6 +6,8 @@ namespace Brick\DI\ValueResolver;
 
 use Brick\DI\ValueResolver;
 use Brick\DI\UnresolvedValueException;
+use ReflectionParameter;
+use ReflectionProperty;
 
 /**
  * Returns the default value of the parameter/property, if available.
@@ -13,7 +15,7 @@ use Brick\DI\UnresolvedValueException;
  */
 class DefaultValueResolver implements ValueResolver
 {
-    public function getParameterValue(\ReflectionParameter $parameter) : mixed
+    public function getParameterValue(ReflectionParameter $parameter) : mixed
     {
         if ($parameter->isDefaultValueAvailable()) {
             return $parameter->getDefaultValue();
@@ -22,7 +24,7 @@ class DefaultValueResolver implements ValueResolver
         throw UnresolvedValueException::unresolvedParameter($parameter);
     }
 
-    public function getPropertyValue(\ReflectionProperty $property) : mixed
+    public function getPropertyValue(ReflectionProperty $property) : mixed
     {
         $name = $property->getName();
         $class = $property->getDeclaringClass();

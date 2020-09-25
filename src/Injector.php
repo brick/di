@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Brick\DI;
 
 use Brick\Reflection\ReflectionTools;
+use ReflectionClass;
+use ReflectionFunctionAbstract;
 
 /**
  * Instantiates classes, injects dependencies in objects and invokes functions by autowiring.
@@ -91,7 +93,7 @@ class Injector
         $this->injectMethods($reflection, $object);
     }
 
-    private function injectMethods(\ReflectionClass $class, object $object) : void
+    private function injectMethods(ReflectionClass $class, object $object) : void
     {
         foreach ($this->reflectionTools->getClassMethods($class) as $method) {
             if ($this->policy->isMethodInjected($method)) {
@@ -102,7 +104,7 @@ class Injector
         }
     }
 
-    private function injectProperties(\ReflectionClass $class, object $object) : void
+    private function injectProperties(ReflectionClass $class, object $object) : void
     {
         foreach ($this->reflectionTools->getClassProperties($class) as $property) {
             if ($this->policy->isPropertyInjected($property)) {
@@ -118,14 +120,14 @@ class Injector
      *
      * The parameters are indexed by name, and returned in the same order as they are defined.
      *
-     * @param \ReflectionFunctionAbstract $function   The reflection of the function.
+     * @param ReflectionFunctionAbstract $function   The reflection of the function.
      * @param array                       $parameters An optional array of parameters indexed by name.
      *
      * @return array The parameters to call the function with.
      *
      * @throws UnresolvedValueException If a function parameter could not be resolved.
      */
-    private function getFunctionParameters(\ReflectionFunctionAbstract $function, array $parameters = []) : array
+    private function getFunctionParameters(ReflectionFunctionAbstract $function, array $parameters = []) : array
     {
         $result = [];
 

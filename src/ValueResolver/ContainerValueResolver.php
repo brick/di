@@ -8,6 +8,8 @@ use Brick\DI\InjectionPolicy;
 use Brick\DI\ValueResolver;
 use Brick\DI\Container;
 use Brick\Reflection\ReflectionTools;
+use ReflectionParameter;
+use ReflectionProperty;
 
 /**
  * This class is internal to the dependency injection Container.
@@ -30,7 +32,7 @@ class ContainerValueResolver implements ValueResolver
         $this->reflectionTools      = new ReflectionTools();
     }
 
-    public function getParameterValue(\ReflectionParameter $parameter) : mixed
+    public function getParameterValue(ReflectionParameter $parameter) : mixed
     {
         // Check if an injection key is available for this parameter.
         $key = $this->injectionPolicy->getParameterKey($parameter);
@@ -50,7 +52,7 @@ class ContainerValueResolver implements ValueResolver
         return $this->defaultValueResolver->getParameterValue($parameter);
     }
 
-    public function getPropertyValue(\ReflectionProperty $property) : mixed
+    public function getPropertyValue(ReflectionProperty $property) : mixed
     {
         // Check if an injection key is available for this property.
         $key = $this->injectionPolicy->getPropertyKey($property);

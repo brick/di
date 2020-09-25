@@ -10,6 +10,8 @@ use Brick\DI\InjectionPolicy\AttributePolicy;
 use Brick\DI\ValueResolver\ContainerValueResolver;
 use Brick\Reflection\ReflectionTools;
 use Closure;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * Resolves object dependencies.
@@ -66,8 +68,8 @@ class Container
         }
 
         try {
-            $class = new \ReflectionClass($key);
-        } catch (\ReflectionException $e) {
+            $class = new ReflectionClass($key);
+        } catch (ReflectionException $e) {
             return false;
         }
 

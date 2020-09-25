@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Brick\DI;
 
+use ReflectionFunctionAbstract;
+use ReflectionParameter;
+use ReflectionProperty;
+
 /**
  * Exception thrown when a parameter/property could not be resolved.
  */
 class UnresolvedValueException extends \RuntimeException
 {
-    public static function unresolvedParameter(\ReflectionParameter $parameter) : UnresolvedValueException
+    public static function unresolvedParameter(ReflectionParameter $parameter) : UnresolvedValueException
     {
         $message = 'The parameter "%s" from function "%s" could not be resolved';
         $message = sprintf($message, self::getParameterName($parameter), self::getFunctionName($parameter));
@@ -17,7 +21,7 @@ class UnresolvedValueException extends \RuntimeException
         return new self($message);
     }
 
-    public static function unresolvedProperty(\ReflectionProperty $property) : UnresolvedValueException
+    public static function unresolvedProperty(ReflectionProperty $property) : UnresolvedValueException
     {
         $message = 'The property %s::$%s could not be resolved';
         $message = sprintf($message, $property->getDeclaringClass()->getName(), $property->getName());
@@ -28,7 +32,7 @@ class UnresolvedValueException extends \RuntimeException
     /**
      * Returns the type (if any) + name of a function parameter.
      */
-    private static function getParameterName(\ReflectionParameter $parameter) : string
+    private static function getParameterName(ReflectionParameter $parameter) : string
     {
         $parameterType = '';
 
@@ -42,7 +46,7 @@ class UnresolvedValueException extends \RuntimeException
     /**
      * Returns the type (if any) + name of a function.
      */
-    private static function getFunctionName(\ReflectionParameter $parameter) : string
+    private static function getFunctionName(ReflectionParameter $parameter) : string
     {
         $function = $parameter->getDeclaringFunction();
 
@@ -52,7 +56,7 @@ class UnresolvedValueException extends \RuntimeException
     /**
      * Helper class for getFunctionName().
      */
-    private static function getClassName(\ReflectionFunctionAbstract $function) : string
+    private static function getClassName(ReflectionFunctionAbstract $function) : string
     {
         if ($function instanceof \ReflectionMethod) {
             return $function->getDeclaringClass()->getName() . '::';

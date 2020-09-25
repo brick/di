@@ -17,9 +17,6 @@ class Singleton implements Scope
 
     private mixed $result;
 
-    /**
-     * {@inheritdoc}
-     */
     public function get(Definition $definition, Container $container) : mixed
     {
         if (! $this->resolved) {

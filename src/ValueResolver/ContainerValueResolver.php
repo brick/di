@@ -50,9 +50,6 @@ class ContainerValueResolver implements ValueResolver
         return $this->defaultValueResolver->getParameterValue($parameter);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPropertyValue(\ReflectionProperty $property) : mixed
     {
         // Check if an injection key is available for this property.

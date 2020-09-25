@@ -63,9 +63,6 @@ class BindingDefinition extends Definition
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolve(Container $container) : mixed
     {
         $parameters = $this->getParameters($container, $this->parameters);

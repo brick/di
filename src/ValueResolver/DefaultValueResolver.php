@@ -13,9 +13,6 @@ use Brick\DI\UnresolvedValueException;
  */
 class DefaultValueResolver implements ValueResolver
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getParameterValue(\ReflectionParameter $parameter) : mixed
     {
         if ($parameter->isDefaultValueAvailable()) {
@@ -25,9 +22,6 @@ class DefaultValueResolver implements ValueResolver
         throw UnresolvedValueException::unresolvedParameter($parameter);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPropertyValue(\ReflectionProperty $property) : mixed
     {
         $name = $property->getName();

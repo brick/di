@@ -12,33 +12,21 @@ use Brick\DI\InjectionPolicy;
  */
 class AttributePolicy implements InjectionPolicy
 {
-    /**
-     * {@inheritdoc}
-     */
     public function isClassInjected(\ReflectionClass $class) : bool
     {
         return (bool) $class->getAttributes(Inject::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isMethodInjected(\ReflectionMethod $method) : bool
     {
         return (bool) $method->getAttributes(Inject::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isPropertyInjected(\ReflectionProperty $property) : bool
     {
         return (bool) $property->getAttributes(Inject::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParameterKey(\ReflectionParameter $parameter) : string|null
     {
         $function = $parameter->getDeclaringFunction();
@@ -53,9 +41,6 @@ class AttributePolicy implements InjectionPolicy
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPropertyKey(\ReflectionProperty $property) : string|null
     {
         foreach ($property->getAttributes(Inject::class) as $attribute) {

@@ -6,7 +6,7 @@ namespace Brick\DI;
 
 use Attribute;
 
-#[Attribute]
+#[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD | Attribute::TARGET_FUNCTION | Attribute::TARGET_PROPERTY)]
 class Inject
 {
     /**

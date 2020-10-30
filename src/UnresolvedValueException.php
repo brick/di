@@ -23,7 +23,7 @@ class UnresolvedValueException extends \RuntimeException
 
     public static function unresolvedProperty(ReflectionProperty $property) : UnresolvedValueException
     {
-        $message = 'The property %s::$%s could not be resolved';
+        $message = 'The property %s::$%s could not be resolved.';
         $message = sprintf($message, $property->getDeclaringClass()->getName(), $property->getName());
 
         return new self($message);
@@ -37,10 +37,25 @@ class UnresolvedValueException extends \RuntimeException
         $parameterType = '';
 
         if (null !== $type = $parameter->getType()) {
-            $parameterType = (string) $type . ' ';
+            $parameterType = self::getReflectionTypeName($type) . ' ';
         }
 
         return $parameterType . '$' . $parameter->getName();
+    }
+
+    private static function getReflectionTypeName(\ReflectionType $reflectionType)
+    {
+        if ($reflectionType instanceof \ReflectionNamedType) {
+            return $reflectionType->getName();
+        }
+
+        if ($reflectionType instanceof \ReflectionUnionType) {
+            return implode('|', array_map(function(\ReflectionNamedType $type) {
+                return $type->getName();
+            }, $reflectionType->getTypes()));
+        }
+
+        return '';
     }
 
     /**

@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace Brick\DI;
 
 use ReflectionFunctionAbstract;
+use ReflectionMethod;
+use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionProperty;
+use ReflectionType;
+use ReflectionUnionType;
 
 /**
  * Exception thrown when a parameter/property could not be resolved.
@@ -43,14 +47,14 @@ class UnresolvedValueException extends \RuntimeException
         return $parameterType . '$' . $parameter->getName();
     }
 
-    private static function getReflectionTypeName(\ReflectionType $reflectionType)
+    private static function getReflectionTypeName(ReflectionType $reflectionType) : string
     {
-        if ($reflectionType instanceof \ReflectionNamedType) {
+        if ($reflectionType instanceof ReflectionNamedType) {
             return $reflectionType->getName();
         }
 
-        if ($reflectionType instanceof \ReflectionUnionType) {
-            return implode('|', array_map(function(\ReflectionNamedType $type) {
+        if ($reflectionType instanceof ReflectionUnionType) {
+            return implode('|', array_map(function(ReflectionNamedType $type) {
                 return $type->getName();
             }, $reflectionType->getTypes()));
         }
@@ -73,7 +77,7 @@ class UnresolvedValueException extends \RuntimeException
      */
     private static function getClassName(ReflectionFunctionAbstract $function) : string
     {
-        if ($function instanceof \ReflectionMethod) {
+        if ($function instanceof ReflectionMethod) {
             return $function->getDeclaringClass()->getName() . '::';
         }
 

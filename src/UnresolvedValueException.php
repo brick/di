@@ -53,7 +53,7 @@ class UnresolvedValueException extends \RuntimeException
         return $parameterType . '$' . $parameter->getName();
     }
 
-    private static function getReflectionTypeName(\ReflectionType $reflectionType)
+    private static function getReflectionTypeName(\ReflectionType $reflectionType) : string
     {
         if ($reflectionType instanceof \ReflectionNamedType) {
             return $reflectionType->getName();

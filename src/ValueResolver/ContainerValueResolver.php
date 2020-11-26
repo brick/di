@@ -56,9 +56,9 @@ class ContainerValueResolver implements ValueResolver
         }
 
         // Try to resolve the parameter by type.
-        $class = $parameter->getClass();
-        if ($class) {
-            $className = $class->getName();
+        $type = $parameter->getType();
+
+        foreach ($this->getClassNames($type) as $className) {
             if ($this->container->has($className)) {
                 return $this->container->get($className);
             }
@@ -87,5 +87,39 @@ class ContainerValueResolver implements ValueResolver
         }
 
         return $this->defaultValueResolver->getPropertyValue($property);
+    }
+
+    /**
+     * @return \ReflectionNamedType[]
+     */
+    private function getReflectionNamedTypes(?\ReflectionType $type) : array
+    {
+        if ($type instanceof \ReflectionNamedType) {
+            return [$type];
+        }
+
+        if ($type instanceof \ReflectionUnionType) {
+            return $type->getTypes();
+        }
+
+        return [];
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getClassNames(?\ReflectionType $type) : array
+    {
+        $namedTypes = $this->getReflectionNamedTypes($type);
+
+        $classNames = [];
+
+        foreach ($namedTypes as $namedType) {
+            if (! $namedType->isBuiltin()) {
+                $classNames[] = $namedType->getName();
+            }
+        }
+
+        return $classNames;
     }
 }

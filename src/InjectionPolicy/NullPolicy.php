@@ -2,51 +2,40 @@
 
 declare(strict_types=1);
 
-namespace Brick\Di\InjectionPolicy;
+namespace Brick\DI\InjectionPolicy;
 
-use Brick\Di\InjectionPolicy;
+use Brick\DI\InjectionPolicy;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionParameter;
+use ReflectionProperty;
 
 /**
  * Prevents injection of any class, method or property.
  */
 class NullPolicy implements InjectionPolicy
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function isClassInjected(\ReflectionClass $class) : bool
+    public function isClassInjected(ReflectionClass $class) : bool
     {
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isMethodInjected(\ReflectionMethod $method) : bool
+    public function isMethodInjected(ReflectionMethod $method) : bool
     {
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isPropertyInjected(\ReflectionProperty $property) : bool
+    public function isPropertyInjected(ReflectionProperty $property) : bool
     {
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getParameterKey(\ReflectionParameter $parameter) : ?string
+    public function getParameterKey(ReflectionParameter $parameter) : string|null
     {
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPropertyKey(\ReflectionProperty $property) : ?string
+    public function getPropertyKey(ReflectionProperty $property) : string|null
     {
         return null;
     }

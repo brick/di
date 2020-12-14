@@ -2,55 +2,40 @@
 
 declare(strict_types=1);
 
-namespace Brick\Di\ValueResolver;
+namespace Brick\DI\ValueResolver;
 
-use Brick\Di\ValueResolver;
-use Brick\Di\Container;
-use Brick\Reflection\ReflectionTools;
+use Brick\DI\InjectionPolicy;
+use Brick\DI\ValueResolver;
+use Brick\DI\Container;
+use ReflectionNamedType;
+use ReflectionParameter;
+use ReflectionProperty;
+use ReflectionType;
+use ReflectionUnionType;
 
 /**
  * This class is internal to the dependency injection Container.
  */
 class ContainerValueResolver implements ValueResolver
 {
-    /**
-     * @var \Brick\Di\Container
-     */
-    private $container;
+    private Container $container;
 
-    /**
-     * @var \Brick\Di\InjectionPolicy
-     */
-    private $injectionPolicy;
+    private InjectionPolicy $injectionPolicy;
 
-    /**
-     * @var \Brick\Di\ValueResolver\DefaultValueResolver
-     */
-    private $defaultValueResolver;
+    private DefaultValueResolver $defaultValueResolver;
 
-    /**
-     * @var \Brick\Reflection\ReflectionTools
-     */
-    private $reflectionTools;
-
-    /**
-     * @param Container $container
-     */
     public function __construct(Container $container)
     {
         $this->container            = $container;
         $this->injectionPolicy      = $container->getInjectionPolicy();
         $this->defaultValueResolver = new DefaultValueResolver();
-        $this->reflectionTools      = new ReflectionTools();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getParameterValue(\ReflectionParameter $parameter)
+    public function getParameterValue(ReflectionParameter $parameter) : mixed
     {
         // Check if an injection key is available for this parameter.
         $key = $this->injectionPolicy->getParameterKey($parameter);
+
         if ($key !== null) {
             return $this->container->get($key);
         }
@@ -67,20 +52,19 @@ class ContainerValueResolver implements ValueResolver
         return $this->defaultValueResolver->getParameterValue($parameter);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPropertyValue(\ReflectionProperty $property)
+    public function getPropertyValue(ReflectionProperty $property) : mixed
     {
         // Check if an injection key is available for this property.
         $key = $this->injectionPolicy->getPropertyKey($property);
+
         if ($key !== null) {
             return $this->container->get($key);
         }
 
         // Try to resolve the property by type.
-        $className = $this->reflectionTools->getPropertyClass($property);
-        if ($className !== null) {
+        $type = $property->getType();
+
+        foreach ($this->getClassNames($type) as $className) {
             if ($this->container->has($className)) {
                 return $this->container->get($className);
             }
@@ -90,15 +74,15 @@ class ContainerValueResolver implements ValueResolver
     }
 
     /**
-     * @return \ReflectionNamedType[]
+     * @return ReflectionNamedType[]
      */
-    private function getReflectionNamedTypes(?\ReflectionType $type) : array
+    private function getReflectionNamedTypes(ReflectionType|null $type) : array
     {
-        if ($type instanceof \ReflectionNamedType) {
+        if ($type instanceof ReflectionNamedType) {
             return [$type];
         }
 
-        if ($type instanceof \ReflectionUnionType) {
+        if ($type instanceof ReflectionUnionType) {
             return $type->getTypes();
         }
 
@@ -108,7 +92,7 @@ class ContainerValueResolver implements ValueResolver
     /**
      * @return string[]
      */
-    private function getClassNames(?\ReflectionType $type) : array
+    private function getClassNames(ReflectionType|null $type) : array
     {
         $namedTypes = $this->getReflectionNamedTypes($type);
 

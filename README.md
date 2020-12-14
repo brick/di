@@ -1,9 +1,9 @@
-Brick\Di
+Brick\DI
 ========
 
 <img src="https://raw.githubusercontent.com/brick/brick/master/logo.png" alt="" align="left" height="64">
 
-A Dependency Injection and Inversion Of Control framework.
+A Dependency Injection and Inversion Of Control framework for PHP 8.
 
 [![Build Status](https://secure.travis-ci.org/brick/di.svg?branch=master)](http://travis-ci.org/brick/di)
 [![Coverage Status](https://coveralls.io/repos/github/brick/di/badge.svg?branch=master)](https://coveralls.io/github/brick/di?branch=master)
@@ -27,4 +27,4 @@ composer require brick/di
 Requirements
 ------------
 
-This library requires PHP 7.2 or later.
+This library requires PHP 8.0 or later.

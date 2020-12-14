@@ -1,13 +1,12 @@
 <?php
 
-namespace Brick\Di\Tests;
+namespace Brick\DI\Tests;
 
-use Brick\Di\Ref;
-use Brick\Di\Scope;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Brick\Di\InjectionPolicy\AnnotationPolicy;
-use Brick\Di\Annotation\Inject;
-use Brick\Di\Container;
+use Brick\DI\Ref;
+use Brick\DI\Scope;
+use Brick\DI\InjectionPolicy\NullPolicy;
+use Brick\DI\Inject;
+use Brick\DI\Container;
 
 use PHPUnit\Framework\TestCase;
 
@@ -19,7 +18,7 @@ class ContainerTest extends TestCase
     /**
      * @dataProvider containerProvider
      */
-    public function testContainer(Container $container)
+    public function testContainer(Container $container) : void
     {
         $container->add([
             'db.host' => 'localhost',
@@ -61,43 +60,37 @@ class ContainerTest extends TestCase
         ], $service->service->config);
     }
 
-    /**
-     * @return array
-     */
-    public function containerProvider()
+    public function containerProvider() : array
     {
-        $containerWithoutAnnotations = new Container();
+        $containerWithoutAttributes = new Container(new NullPolicy());
 
-        $containerWithoutAnnotations->bind(DatabaseConnection::class)->with([
+        $containerWithoutAttributes->bind(DatabaseConnection::class)->with([
             'hostname' => new Ref('db.host'),
             'username' => new Ref('db.user'),
             'password' => new Ref('db.pass')
         ]);
 
-        $reader = new AnnotationReader();
-        $policy = new AnnotationPolicy($reader);
-
-        $containerWithAnnotations = new Container($policy);
+        $containerWithAttributes = new Container();
 
         return [
-            [$containerWithoutAnnotations],
-            [$containerWithAnnotations]
+            [$containerWithoutAttributes],
+            [$containerWithAttributes]
         ];
     }
 
     /**
      * @dataProvider providerScope
      */
-    public function testScope(Scope $dbScope, Scope $aliasScope, $dbSame, $aliasSame)
+    public function testScope(Scope $dbScope, Scope $aliasScope, bool $dbSame, bool $aliasSame) : void
     {
-        $container = new Container();
+        $container = new Container(new NullPolicy());
 
         $container->set('foo', 'bar');
         $container->bind(DatabaseConnection::class)->in($dbScope)->with([
-                'hostname' => new Ref('foo'),
-                'username' => new Ref('foo'),
-                'password' => new Ref('foo')
-            ]);
+            'hostname' => new Ref('foo'),
+            'username' => new Ref('foo'),
+            'password' => new Ref('foo')
+        ]);
 
         $container->alias('database.connection.shared', DatabaseConnection::class)->in($aliasScope);
 
@@ -108,7 +101,7 @@ class ContainerTest extends TestCase
     /**
      * @return array
      */
-    public function providerScope()
+    public function providerScope() : array
     {
         return [
             [new Scope\Singleton(), new Scope\Singleton(), true, true],
@@ -118,12 +111,7 @@ class ContainerTest extends TestCase
         ];
     }
 
-    /**
-     * @param Container $container
-     * @param string    $key
-     * @param bool      $same
-     */
-    private function assertResult(Container $container, $key, $same)
+    private function assertResult(Container $container, string $key, bool $same) : void
     {
         $a = $container->get($key);
         $b = $container->get($key);
@@ -135,19 +123,15 @@ class ContainerTest extends TestCase
     }
 }
 
-/**
- * @Inject
- */
+#[Inject]
 class DatabaseConnection
 {
-    public $hostname;
-    public $username;
-    public $password;
+    public string $hostname;
+    public string $username;
+    public string $password;
 
-    /**
-     * @Inject(hostname="db.host", username="db.user", password="db.pass")
-     */
-    public function __construct($hostname, $username, $password)
+    #[Inject(['hostname' => 'db.host', 'username' => 'db.user', 'password' => 'db.pass'])]
+    public function __construct(string $hostname, string $username, string $password)
     {
         $this->hostname = $hostname;
         $this->username = $username;
@@ -157,11 +141,11 @@ class DatabaseConnection
 
 class SomeService
 {
-    public $connection;
-    public $timeout;
-    public $config;
+    public DatabaseConnection $connection;
+    public int $timeout;
+    public array $config;
 
-    public function __construct(DatabaseConnection $connection, $timeout, array $config)
+    public function __construct(DatabaseConnection $connection, int $timeout, array $config)
     {
         $this->connection = $connection;
         $this->timeout = $timeout;
@@ -171,8 +155,8 @@ class SomeService
 
 class AnotherService
 {
-    public $connection;
-    public $service;
+    public DatabaseConnection $connection;
+    public SomeService $service;
 
     public function __construct(DatabaseConnection $connection, SomeService $service)
     {

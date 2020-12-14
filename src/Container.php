@@ -2,54 +2,35 @@
 
 declare(strict_types=1);
 
-namespace Brick\Di;
+namespace Brick\DI;
 
-use Brick\Di\Definition\AliasDefinition;
-use Brick\Di\Definition\BindingDefinition;
-use Brick\Di\InjectionPolicy\NullPolicy;
-use Brick\Di\ValueResolver\ContainerValueResolver;
+use Brick\DI\Definition\AliasDefinition;
+use Brick\DI\Definition\BindingDefinition;
+use Brick\DI\InjectionPolicy\AttributePolicy;
+use Brick\DI\ValueResolver\ContainerValueResolver;
 use Brick\Reflection\ReflectionTools;
+use Closure;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * Resolves object dependencies.
  */
 class Container
 {
-    /**
-     * @var \Brick\Di\InjectionPolicy
-     */
-    private $injectionPolicy;
+    private InjectionPolicy $injectionPolicy;
 
-    /**
-     * @var \Brick\Di\Injector
-     */
-    private $injector;
+    private Injector $injector;
 
-    /**
-     * @var \Brick\Di\ValueResolver\ContainerValueResolver
-     */
-    private $valueResolver;
+    private ContainerValueResolver $valueResolver;
 
-    /**
-     * @var \Brick\Reflection\ReflectionTools
-     */
-    private $reflectionTools;
+    private ReflectionTools $reflectionTools;
 
-    /**
-     * @var array
-     */
-    private $items = [];
+    private array $items = [];
 
-    /**
-     * Class constructor.
-     *
-     * @param InjectionPolicy|null $policy
-     */
-    public function __construct(?InjectionPolicy $policy = null)
+    public function __construct(InjectionPolicy|null $policy = null)
     {
-        if ($policy === null) {
-            $policy = new NullPolicy();
-        }
+        $policy ??= new AttributePolicy();
 
         $this->injectionPolicy = $policy;
         $this->valueResolver = new ContainerValueResolver($this);
@@ -60,25 +41,16 @@ class Container
         $this->set(Injector::class, $this->injector);
     }
 
-    /**
-     * @return Injector
-     */
     public function getInjector() : Injector
     {
         return $this->injector;
     }
 
-    /**
-     * @return ContainerValueResolver
-     */
     public function getValueResolver() : ContainerValueResolver
     {
         return $this->valueResolver;
     }
 
-    /**
-     * @return InjectionPolicy
-     */
     public function getInjectionPolicy() : InjectionPolicy
     {
         return $this->injectionPolicy;
@@ -88,8 +60,6 @@ class Container
      * Returns whether the container has the given key.
      *
      * @param string $key The key, class or interface name.
-     *
-     * @return bool
      */
     public function has(string $key) : bool
     {
@@ -98,8 +68,8 @@ class Container
         }
 
         try {
-            $class = new \ReflectionClass($key);
-        } catch (\ReflectionException $e) {
+            $class = new ReflectionClass($key);
+        } catch (ReflectionException $e) {
             return false;
         }
 
@@ -107,7 +77,7 @@ class Container
 
         foreach ($classes as $class) {
             if ($this->injectionPolicy->isClassInjected($class)) {
-                $this->bind($key); // @todo allow to configure scope (singleton) with annotations
+                $this->bind($key); // @todo allow to configure scope (singleton) with attributes
 
                 return true;
             }
@@ -121,14 +91,12 @@ class Container
      *
      * @param string $key The key, class or interface name.
      *
-     * @return mixed
-     *
-     * @throws DependencyInjectionException If the key is not registered.
+     * @throws DIException If the key is not registered.
      */
-    public function get(string $key)
+    public function get(string $key) : mixed
     {
         if (! $this->has($key)) {
-            throw DependencyInjectionException::keyNotRegistered($key);
+            throw DIException::keyNotRegistered($key);
         }
 
         $value = $this->items[$key];
@@ -147,10 +115,8 @@ class Container
      *
      * @param string $key   The key, class or interface name.
      * @param mixed  $value The value to set.
-     *
-     * @return Container
      */
-    public function set(string $key, $value) : Container
+    public function set(string $key, mixed $value) : Container
     {
         $this->items[$key] = $value;
 
@@ -163,8 +129,6 @@ class Container
      * This is equivalent to calling set() for each key-value pair.
      *
      * @param array $values An associative array of key-value pairs.
-     *
-     * @return Container
      */
     public function add(array $values) : Container
     {
@@ -211,12 +175,10 @@ class Container
      *
      * Note: not use bind() to attach an existing object instance. Use set() instead.
      *
-     * @param string               $key    The key, class or interface name.
-     * @param \Closure|string|null $target The class name or closure to bind. Optional if the key is the class name.
-     *
-     * @return BindingDefinition
+     * @param string              $key    The key, class or interface name.
+     * @param Closure|string|null $target The class name or closure to bind. Optional if the key is the class name
      */
-    public function bind(string $key, $target = null) : BindingDefinition
+    public function bind(string $key, Closure|string|null $target = null) : BindingDefinition
     {
         return $this->items[$key] = new BindingDefinition($target ?? $key);
     }
@@ -242,8 +204,6 @@ class Container
      *
      * @param string $key       The key, class or interface name.
      * @param string $targetKey The target key.
-     *
-     * @return \Brick\Di\Definition\AliasDefinition
      */
     public function alias(string $key, string $targetKey) : AliasDefinition
     {

@@ -2,26 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Brick\Di;
+namespace Brick\DI;
 
 /**
  * Base class for definitions.
  */
 abstract class Definition
 {
-    /**
-     * @var Scope|null
-     */
-    private $scope;
+    private Scope|null $scope = null;
 
     /**
      * Changes the scope of this definition.
-     *
-     * @param Scope $scope
-     *
-     * @return static
      */
-    public function in(Scope $scope) : Definition
+    public function in(Scope $scope) : static
     {
         $this->scope = $scope;
 
@@ -34,12 +27,8 @@ abstract class Definition
      * This method is for internal use by the Container.
      *
      * @internal
-     *
-     * @param Container $container
-     *
-     * @return mixed
      */
-    public function get(Container $container)
+    public function get(Container $container) : mixed
     {
         if ($this->scope === null) {
             $this->scope = $this->getDefaultScope();
@@ -54,12 +43,8 @@ abstract class Definition
      * This method is for internal use by the Scopes.
      *
      * @internal
-     *
-     * @param Container $container
-     *
-     * @return mixed
      */
-    abstract public function resolve(Container $container);
+    abstract public function resolve(Container $container) : mixed;
 
     /**
      * Returns the default Scope for this definition when not set explicitly.

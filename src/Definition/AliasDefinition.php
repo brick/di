@@ -2,41 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Brick\Di\Definition;
+namespace Brick\DI\Definition;
 
-use Brick\Di\Definition;
-use Brick\Di\Scope;
-use Brick\Di\Container;
+use Brick\DI\Definition;
+use Brick\DI\Scope;
+use Brick\DI\Container;
 
 /**
  * Resolves a key by pointing to another.
  */
 class AliasDefinition extends Definition
 {
-    /**
-     * @var string
-     */
-    private $targetKey;
+    private string $targetKey;
 
-    /**
-     * @param string $targetKey
-     */
     public function __construct(string $targetKey)
     {
         $this->targetKey = $targetKey;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function resolve(Container $container)
+    public function resolve(Container $container) : mixed
     {
         return $container->get($this->targetKey);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefaultScope() : Scope
     {
         return new Scope\Prototype();

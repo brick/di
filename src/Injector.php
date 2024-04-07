@@ -81,7 +81,7 @@ class Injector
     /**
      * Injects dependencies in an object.
      *
-     * Properties are injected first, then methods.
+     * Properties are injected first, then methods (but not the constructor).
      *
      * @param object $object The object to inject dependencies in.
      */
@@ -96,7 +96,7 @@ class Injector
     private function injectMethods(ReflectionClass $class, object $object) : void
     {
         foreach ($this->reflectionTools->getClassMethods($class) as $method) {
-            if ($this->policy->isMethodInjected($method)) {
+            if ($this->policy->isMethodInjected($method) && !$method->isConstructor()) {
                 $parameters = $this->getFunctionParameters($method);
                 $method->setAccessible(true);
                 $method->invokeArgs($object, $parameters);
